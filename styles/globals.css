@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+
+:root {
+  --main-font-family: 'PT Mono', monospace;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--main-font-family);
 }
 
 a {
@@ -24,18 +29,11 @@ main {
   background-color: cadetblue;
 }
 
-.filenav {
-  font-size: 0.8rem;
-  width: 25vw;
-  overflow: scroll;
-}
-
 .toolbar {
   background-color: lightblue;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
-  width: 75vw;
   margin-bottom: 2rem;
 }
 
@@ -48,5 +46,4 @@ table {
 }
 
 .preview {
-  width: 75vw;
 }

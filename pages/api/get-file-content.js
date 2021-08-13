@@ -1,25 +1,26 @@
-import fs from "fs"
-import {toJSON} from "../../utils/toJSON";
+import fs from "fs";
+import { toJSON } from "../../utils/toJSON";
 
-const PROJECT_ROOT = "C:/Home/Hobby/Projects/LibrarySystem/client-web"
+const PROJECT_ROOT = "C:/Home/Hobby/Projects/LibrarySystem/client-web";
 
 const getFileContent = (req, res) => {
-    return new Promise(resolve => {
-        const path = `${PROJECT_ROOT}${req.query.file}`
-        fs.readFile(path, "utf-8", (_, data) => {
-            const translations = data.match(/export const .*: Translation [^;]*;/sg)
+  return new Promise((resolve) => {
+    const path = `${PROJECT_ROOT}${req.query.file}`;
+    fs.readFile(path, "utf-8", (_, data) => {
+      const translations = data.match(/export const .*: Translation [^;]*;/gs);
 
-            const splitPath = req.query.file.split("/")
-            res.status(200).json({
-                "path": path,
-                "name": splitPath[splitPath.length - 1],
-                "imports": data.match(/import [^;]*;/gs),
-                "translations": translations ? toJSON(translations[0]) : {},
-            })
+      const splitPath = req.query.file.split("/");
+      res.status(200).json({
+        path: path,
+        relativePath: req.query.file,
+        name: splitPath[splitPath.length - 1],
+        imports: data.match(/import [^;]*;/gs),
+        translations: translations ? toJSON(translations[0]) : {},
+      });
 
-            resolve()
-        })
-    })
-}
+      resolve();
+    });
+  });
+};
 
-export default getFileContent
+export default getFileContent;

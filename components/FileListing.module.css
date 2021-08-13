@@ -1,0 +1,24 @@
+.Container {
+    overflow: scroll;
+    padding: 0 1rem;
+}
+
+.Listing {
+    font-size: 0.9rem;
+    list-style-type: none;
+    padding: 0;
+}
+
+.ListingRecord {
+    padding: 0.25rem;
+}
+
+.ListingRecord:hover {
+    background-color: #ccdae0;
+    cursor: pointer;
+}
+
+.ListingRecord[data-active="true"] {
+    background-color: #344045;
+    color: whitesmoke;
+}
