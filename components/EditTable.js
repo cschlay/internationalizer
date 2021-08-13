@@ -1,4 +1,8 @@
-export const EditTable = ({ translations }) => {
+export const EditTable = ({ translations, onChange }) => {
+    const handleChange = (event) => {
+        onChange(event.currentTarget.dataset.lang, event.currentTarget.dataset.key, event.target.value)
+    }
+
     return (
         <table>
             <thead>
@@ -10,7 +14,15 @@ export const EditTable = ({ translations }) => {
             </thead>
             <tbody>
                 {Object.entries(translations).map(([key, val]) => (
-                    <tr key={key}><td>{key}</td><td><textarea rows={5}>{val.en}</textarea></td><td><textarea rows={5}>{val.fi}</textarea></td></tr>
+                    <tr key={key}>
+                        <td>{key}</td>
+                        <td>
+                            <textarea rows={5} value={val.en} data-key={key} data-lang="en" onChange={handleChange} />
+                        </td>
+                        <td>
+                            <textarea rows={5} value={val.fi} data-key={key} data-lang="fi" onChange={handleChange} />
+                        </td>
+                    </tr>
                 ))}
             </tbody>
         </table>
