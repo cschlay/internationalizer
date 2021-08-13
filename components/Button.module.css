@@ -1,0 +1,12 @@
+.Container {
+    background-color: #f6fafc;
+    border: none;
+    border-radius: 0.25rem;
+    font-family: var(--main-font-family);
+    padding: 0.5rem 1rem;
+}
+
+.Container[disabled] {
+    color: black;
+    opacity: 0.3;
+}

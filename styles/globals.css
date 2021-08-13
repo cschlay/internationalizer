@@ -21,20 +21,12 @@ a {
 }
 
 main {
-  display: flex;
+  margin: 2rem;
+}
+
+.app {
+    display: flex;
   height: 100vh;
-}
-
-.active-file {
-  background-color: cadetblue;
-}
-
-.toolbar {
-  background-color: lightblue;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
 }
 
 textarea {
@@ -46,4 +38,5 @@ table {
 }
 
 .preview {
+  width: stretch;
 }

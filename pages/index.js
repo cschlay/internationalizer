@@ -1,12 +1,13 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { EditTable } from "../components/EditTable";
 import { toTSX } from "../utils/toTSX";
 import { FileListing } from "../components/FileListing";
+import { ToolBar } from "../components/ToolBar";
 
 const HomePage = () => {
   const [activeFile, setActiveFile] = useState({ path: "", relativePath: "" });
-  const [saved, setSaved] = useState(true);
+  const [hasPendingChanges, setHasPendingChanges] = useState(false);
 
   const handleFileSelected = (filepath) => {
     fetch(`/api/get-file-content?file=${encodeURIComponent(filepath)}`)
@@ -15,58 +16,71 @@ const HomePage = () => {
   };
 
   const handleChange = (locale, key, value) => {
-    setSaved(false);
+    setHasPendingChanges(true);
     const updated = { ...activeFile };
     updated.translations[key][locale] = value;
     setActiveFile(updated);
   };
 
-  const handleSave = () => {
-    const tsxString = toTSX(activeFile);
-    console.log(tsxString);
-    fetch("/api/write-changes", {
-      method: "POST",
-      body: JSON.stringify({ path: activeFile.path, content: tsxString }),
-    }).then(() => setSaved(true));
-  };
+  const handleSave = useCallback(() => {
+    if (hasPendingChanges) {
+      const tsxString = toTSX(activeFile);
+      fetch("/api/write-changes", {
+        method: "POST",
+        body: JSON.stringify({ path: activeFile.path, content: tsxString }),
+      }).then(() => setHasPendingChanges(false));
+    }
+  }, [activeFile, hasPendingChanges]);
+
+  useEffect(() => {
+    const handler = (event) => {
+      if (event.ctrlKey && event.key === "s") {
+        event.preventDefault();
+        handleSave();
+      }
+    };
+
+    window.addEventListener("keydown", handler);
+
+    return () => {
+      window.removeEventListener("keydown", handler);
+    };
+  }, [handleSave]);
 
   return (
-    <div>
+    <>
       <Head>
         <title>Internationalizer</title>
       </Head>
-      <main>
+      <div className="app">
         <FileListing
           activeFilePath={activeFile.relativePath}
           onFileSelected={handleFileSelected}
         />
 
         <div className="preview">
-          <div className="toolbar">
-            <div>
-              <button onClick={handleSave}>Save</button>{" "}
-              <span>{!saved && "You have unsaved changes."}</span>
-            </div>
-
-            <div>
-              <button>Previous</button>
-              <button>Save and open next</button>
-            </div>
-          </div>
-
-          {activeFile.path ? (
-            <EditTable
-              translations={activeFile.translations}
-              onChange={handleChange}
+          {activeFile.path && (
+            <ToolBar
+              hasPendingChanges={hasPendingChanges}
+              onSave={handleSave}
             />
-          ) : (
-            <p style={{ textAlign: "center" }}>
-              Start tranlating by selecting file in the left
-            </p>
           )}
+
+          <main>
+            {activeFile.path ? (
+              <EditTable
+                translations={activeFile.translations}
+                onChange={handleChange}
+              />
+            ) : (
+              <p style={{ textAlign: "center" }}>
+                Start tranlating by selecting file in the left
+              </p>
+            )}
+          </main>
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 };
 

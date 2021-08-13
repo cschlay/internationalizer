@@ -1,0 +1,11 @@
+.Container {
+    background-color: black;
+    width: 100%;
+
+    padding: 1.5rem;
+}
+
+.UnsavedChanges {
+    color: white;
+    opacity: 0.7;
+}

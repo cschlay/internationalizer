@@ -10,7 +10,6 @@ export const FileListing = ({ activeFilePath, onFileSelected }: Props) => {
   const [files, setFiles] = useState<string[]>([]);
 
   const handleFileSelect = (event: SyntheticEvent<HTMLLIElement>) => {
-    console.log(event.currentTarget.dataset);
     onFileSelected(event.currentTarget.dataset.path);
   };
 
