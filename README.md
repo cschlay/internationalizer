@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Installation
 
-## Getting Started
-
-First, run the development server:
+Install [Node.js](https://nodejs.org/en/). Choose LTS version if unsure.
 
 ```bash
-npm run dev
-# or
+yarn install
+```
+
+## Translator Instructions
+
+Create a new file `.env` and add project location e.g.
+
+```bash
+NEXT_PUBLIC_PROJECT_DIRECTORY=C:/Home/Projects/ExampleApp
+```
+
+Then start the server in command line:
+
+```bash
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the following link in Chrome [http://localhost:3001](http://localhost:3001).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Developer Instructions
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+In project, modify the `tsconfig.json` to contain the following lines:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/types/*": ["types/*"]
+    }
+  }
+}
+```
 
-## Learn More
+Also ensure that `types/Translation.ts` contains the definitions
 
-To learn more about Next.js, take a look at the following resources:
+```typescript
+import { Locales } from "../constants/Locales";
+import { ReactNode } from "react";
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export type I18nTemplate = (args: Record<string, any>) => string | ReactNode;
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+export type I18nTextNode = string | ReactNode | I18nTemplate;
 
-## Deploy on Vercel
+export type LocalizedTexts = {
+    [Locales.EN]: I18nTextNode;
+    [Locales.FI]: I18nTextNode;
+};
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export type Translation = Record<string, LocalizedTexts>;
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The locales you can define almost any browser supported locale such as `en-GB`, `en-US`,
+you can find them at [Subtag Lookup Tool](https://r12a.github.io/app-subtags/).
