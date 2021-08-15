@@ -11,17 +11,17 @@ const SEMI = `;`;
 export const toTSX = (content: TranslationFileContent): string => {
   const tsx: string[] = [
     "/* eslint-disable react/display-name */",
-    `import { I18nTemplate, I18nTextNode, Translation } from "@/types/Translation"${SEMI}`,
+    `import { I18nTemplate, I18nTextNode, Translation } from "@/types/Translation"${SEMI}\n`,
   ];
   const [objectName]: string[] = content.name.split(".");
-  tsx.push("\n");
-  tsx.push(`export const ${objectName}Texts: Translation = `);
+  tsx.push(`export const ${objectName}I18n: Translation = {`);
 
   const [translationTsx, tsxInterface] = extractContent(content.translations);
   tsx.push(translationTsx);
-  tsx.push("\n");
+  tsx.push("}" + SEMI + "\n");
   tsx.push(`export interface I18nContent {`);
   tsx.push(tsxInterface);
+  tsx.push("}");
   return tsx.join("\n");
 };
 
@@ -42,23 +42,23 @@ const extractContent = (content: Translation): string[] => {
         // Templates are always pure functions that return JSX.
         isTemplated = true;
         tsx.push(
-          INDENT + INDENT + `${languageCode}: ({ ${args} }) => <>${textNode}</>`
+          INDENT +
+            INDENT +
+            `${languageCode}: ({ ${args} }) => <>${textNode}</>,`
         );
       } else {
         // Non-templates are strings.
-        tsx.push(INDENT + INDENT + `${languageCode}: ${textNode}`);
+        tsx.push(INDENT + INDENT + `${languageCode}: "${textNode}",`);
       }
     }
+    tsx.push(INDENT + "},");
+
     if (isTemplated) {
       tsxInterface.push(INDENT + `${key}: I18nTemplate` + SEMI);
     } else {
       tsxInterface.push(INDENT + `${key}: I18nTextNode` + SEMI);
     }
-    tsx.push(INDENT + "},");
   }
-  tsx.push("}" + SEMI);
-  tsxInterface.push("}");
-
   return [tsx.join("\n"), tsxInterface.join("\n")];
 };
 
