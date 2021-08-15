@@ -57,3 +57,16 @@ export type Translation = Record<string, LocalizedTexts>;
 
 The locales you can define almost any browser supported locale such as `en-GB`, `en-US`,
 you can find them at [Subtag Lookup Tool](https://r12a.github.io/app-subtags/).
+
+### Defining Translation Files
+
+The suggested location to put files are `/components/**/*.i18n.tsx` and `/translations/**/*.18n.tsx`.
+Files other than those folders may not be found. Also, the structure of the file must be:
+
+```typescript
+export const FileNameI18n: Translation = {
+    
+};
+```
+
+The style requirement is to use semicolon `;` it makes parsing much easier and matches the style of C#.

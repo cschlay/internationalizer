@@ -9,7 +9,7 @@ import { Translation } from "../types";
 export const readTranslation = (
   translations: RegExpMatchArray
 ): Translation => {
-  if (!translations || !translations[0]) {
+  if (!translations || translations.length === 0) {
     return {};
   }
 

@@ -1,14 +1,18 @@
 import fs from "fs";
 import { readTranslation } from "../../utils/readTranslation";
 import { Translation } from "../../types";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const TRANSLATION_REGEX: RegExp = /export const .*: Translation [^;]*;/gs;
 
 /**
  * Reads a .18n.tsx file and transforms its content into JSON serializable representation.
  */
-const getFileContent = (req, res): Promise<TranslationFileContent> => {
-  const filePath: string = req.query.file;
+const getFileContent = (
+  req: NextApiRequest,
+  res: NextApiResponse<TranslationFileContent>
+): Promise<null> => {
+  const filePath: string = req.query.file as string;
   const absolutePath = `${process.env.NEXT_PUBLIC_PROJECT_DIRECTORY}${req.query.file}`;
 
   return new Promise((resolve) => {
