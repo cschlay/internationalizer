@@ -1,6 +1,6 @@
 import fs from "fs";
 import { readTranslation } from "../../utils/readTranslation";
-import { Translation } from "../../types";
+import { TranslationFileContent } from "../../types";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const TRANSLATION_REGEX: RegExp = /export const .*: Translation [^;]*;/gs;
@@ -30,12 +30,5 @@ const getFileContent = (
     });
   });
 };
-
-interface TranslationFileContent {
-  path: string;
-  relativePath: string;
-  name: string;
-  translations: Translation;
-}
 
 export default getFileContent;
