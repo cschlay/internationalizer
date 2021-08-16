@@ -6,6 +6,7 @@ import { FileListing } from "../components/FileListing";
 import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
 import { Description } from "../components/Description";
+import styles from "../styles/IframePreview.module.css";
 
 const HomePage = () => {
   const [file, setFile] = useState<TranslationFileContent>({
@@ -74,7 +75,7 @@ const HomePage = () => {
           onFileSelected={handleFileSelected}
         />
 
-        <div className="preview">
+        <div>
           {file.path && (
             <ToolBar
               hasPendingChanges={hasPendingChanges}
@@ -83,24 +84,27 @@ const HomePage = () => {
           )}
 
           <main>
-            <Description
-              docstring={file.docstring}
-              setPreviewUrl={setPreviewUrl}
-            />
-
-            {file.path ? (
-              <EditTable
-                translations={file.translations}
-                onChange={handleChange}
+            <div className="edit-module">
+              <Description
+                docstring={file.docstring}
+                setPreviewUrl={setPreviewUrl}
               />
-            ) : (
-              <p style={{ textAlign: "center" }}>
-                Start tranlating by selecting file in the left
-              </p>
-            )}
-          </main>
 
-          <iframe src={previewUrl} />
+              {file.path ? (
+                <EditTable
+                  translations={file.translations}
+                  onChange={handleChange}
+                />
+              ) : (
+                <p style={{ textAlign: "center" }}>
+                  Start tranlating by selecting file in the left
+                </p>
+              )}
+            </div>
+          </main>
+        </div>
+        <div className="preview">
+          <iframe src={previewUrl} className={styles.IframePreview} />
         </div>
       </div>
     </>
