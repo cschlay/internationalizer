@@ -1,9 +1,11 @@
 import fs from "fs";
-import { readTranslation } from "../../utils/readTranslation";
-import { TranslationFileContent } from "../../types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { readDocstring } from "../../utils/readDocstring";
+import { readTranslation } from "../../utils/readTranslation";
+import { TranslationFileContent } from "../../types";
 
+// The pattern may be bad if developer manually writes multiple docstring.
+const DOCSTRING_REGEX: RegExp = /\/\*\*.*\*\//s;
 const TRANSLATION_REGEX: RegExp = /export const .*: Translation [^;]*;/gs;
 
 /**
@@ -19,8 +21,7 @@ const getFileContent = (
   return new Promise((resolve) => {
     fs.readFile(absolutePath, "utf-8", (_, content) => {
       const translations: RegExpMatchArray = content.match(TRANSLATION_REGEX);
-      // The pattern may be bad if developer manually writes multiple docstring.
-      const docstring: RegExpMatchArray = content.match(/\/\*\*.*\*\//s);
+      const docstring: RegExpMatchArray = content.match(DOCSTRING_REGEX);
 
       const responseData: TranslationFileContent = {
         path: absolutePath,

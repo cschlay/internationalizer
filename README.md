@@ -104,4 +104,4 @@ When more than one previews exists, the first storybook url will take the highes
 
 ## Errors
 
-Absolutely no error handling exists, since the all errors must be encountered, and every operation must work at all times.
+All errors must be handled. No try-catch statements allowed.

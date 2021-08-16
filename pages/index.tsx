@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 import { EditTable } from "../components/EditTable";
-import { toTSX } from "../utils/toTSX";
 import { FileListing } from "../components/FileListing";
 import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
@@ -22,7 +21,10 @@ const HomePage = () => {
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
   const handleFileSelected = (filepath: string) => {
-    if (!hasPendingChanges || window.confirm("You have unsaved changes.")) {
+    if (
+      !hasPendingChanges ||
+      window.confirm("You have unsaved changes. Do you want leave the page?")
+    ) {
       services
         .getFileContent(filepath, previewLanguage)
         .then((response) => {
@@ -42,10 +44,7 @@ const HomePage = () => {
 
   const handleSave = useCallback(() => {
     if (hasPendingChanges) {
-      fetch("/api/write-changes", {
-        method: "POST",
-        body: JSON.stringify({ path: file.path, content: toTSX(file) }),
-      }).then(() => setHasPendingChanges(false));
+      services.saveChanges(file).then(() => setHasPendingChanges(false));
     }
   }, [file, hasPendingChanges]);
 
