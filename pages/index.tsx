@@ -5,8 +5,11 @@ import { FileListing } from "../components/FileListing";
 import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
 import { DocstringPreview } from "../components/DocstringPreview";
-import styles from "../styles/IframePreview.module.css";
 import { services } from "../services";
+import { useConfirmLeaveEffect } from "../hooks/useConfirmLeaveEffect";
+import { useCtrlSaveEffect } from "../hooks/useCtrlSaveEffect";
+
+import styles from "../styles/IframePreview.module.css";
 
 const HomePage = () => {
   const [file, setFile] = useState<TranslationFileContent>({
@@ -48,31 +51,15 @@ const HomePage = () => {
     }
   }, [file, hasPendingChanges]);
 
-  useEffect(() => {
-    if (hasPendingChanges) {
-      window.addEventListener("beforeunload", handlePendingChanges);
-    }
-    return () =>
-      window.removeEventListener("beforeunload", handlePendingChanges);
-  }, [hasPendingChanges]);
-
-  useEffect(() => {
-    const saveEventHandler = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "s") {
-        // Default CTRL + S is to save page.
-        event.preventDefault();
-        handleSave();
-      }
-    };
-    window.addEventListener("keydown", saveEventHandler);
-    return () => window.removeEventListener("keydown", saveEventHandler);
-  }, [handleSave]);
+  useConfirmLeaveEffect(hasPendingChanges);
+  useCtrlSaveEffect(handleSave);
 
   useEffect(() => {
     if (previewUrl) {
-      setPreviewUrl(previewUrl.replace(/lang=.*/, `lang=${previewLanguage}`));
+      const url = previewUrl.replace(/lang=.*/, `lang=${previewLanguage}`);
+      setPreviewUrl(url);
     }
-  }, [previewLanguage]);
+  }, [previewLanguage, previewUrl]);
 
   return (
     <>
@@ -128,10 +115,6 @@ const HomePage = () => {
       </div>
     </>
   );
-};
-
-const handlePendingChanges = (event) => {
-  event.returnValue = "";
 };
 
 export default HomePage;
