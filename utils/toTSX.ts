@@ -1,4 +1,5 @@
-import { Translation, TranslationFileContent } from "../types";
+import { ParsedDocstring, Translation, TranslationFileContent } from "../types";
+import { DOCSTRING_PREVIEW_TAG, DOCSTRING_STORYBOOK_TAG } from "../config";
 
 const INDENT = `    `;
 const SEMI = `;`;
@@ -9,10 +10,14 @@ const SEMI = `;`;
  * It automatically adds ESLint exceptions, type imports, and the interface.
  */
 export const toTSX = (content: TranslationFileContent): string => {
-  const tsx: string[] = [
+  let tsx: string[] = [
     "/* eslint-disable react/display-name */",
     `import { I18nTemplate, I18nTextNode, Translation } from "@/types/Translation"${SEMI}\n`,
   ];
+
+  if (content.docstring) {
+    tsx = tsx.concat(convertDocstring(content.docstring));
+  }
   const [objectName]: string[] = content.name.split(".");
   tsx.push(`export const ${objectName}I18n: Translation = {`);
 
@@ -60,6 +65,21 @@ const extractContent = (content: Translation): string[] => {
     }
   }
   return [tsx.join("\n"), tsxInterface.join("\n")];
+};
+
+const convertDocstring = (docstring: ParsedDocstring): string[] => {
+  const tsx: string[] = ["/**"];
+  docstring.description.forEach((line) => {
+    tsx.push(` * ${line}`);
+  });
+  docstring.storybookUrls.forEach((url) =>
+    tsx.push(` * ${DOCSTRING_STORYBOOK_TAG} ${url}`)
+  );
+  docstring.previewUrls.forEach((url) =>
+    tsx.push(` * ${DOCSTRING_PREVIEW_TAG} ${url}`)
+  );
+  tsx.push("*/");
+  return tsx;
 };
 
 /**
