@@ -34,6 +34,5 @@ export const readDocstring = (
       result.description.push(line);
     }
   });
-  console.log(result);
   return result;
 };

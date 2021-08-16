@@ -5,16 +5,22 @@ import styles from "./DocstringPreview.module.css";
 
 interface Props {
   docstring: ParsedDocstring;
-  targetLanguage: string;
+  previewLanguage: string;
   setPreviewUrl: (url: string) => void;
 }
-export const DocstringPreview = ({ docstring, setPreviewUrl }: Props) => {
+export const DocstringPreview = ({
+  docstring,
+  previewLanguage,
+  setPreviewUrl,
+}: Props) => {
   if (!docstring) {
     return null;
   }
 
   const handlePreviewUrlChange = (event: SyntheticEvent<HTMLButtonElement>) => {
-    setPreviewUrl(event.currentTarget.dataset.url);
+    let url = event.currentTarget.dataset.url;
+    url += url.indexOf("?") === -1 ? "?" : "&";
+    setPreviewUrl(`${url}lang=${previewLanguage}`);
   };
 
   return (
@@ -44,7 +50,6 @@ export const DocstringPreview = ({ docstring, setPreviewUrl }: Props) => {
           </button>
         ))}
       </nav>
-      <hr />
     </div>
   );
 };

@@ -16,7 +16,8 @@ const HomePage = () => {
     relativePath: "",
   });
   const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
-  const [targetLanguage, setTargetLanguage] = useState<string>("");
+  const [activeLanguages, setActiveLanguages] = useState<string[]>(["en"]);
+  const [previewLanguage, setPreviewLanguage] = useState<string>("en");
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
   const handleFileSelected = (filepath) => {
@@ -78,6 +79,9 @@ const HomePage = () => {
         <div>
           {file.path && (
             <ToolBar
+              activeLanguages={activeLanguages}
+              setActiveLanguages={setActiveLanguages}
+              setPreviewLanguage={setPreviewLanguage}
               hasPendingChanges={hasPendingChanges}
               onSave={handleSave}
             />
@@ -87,6 +91,7 @@ const HomePage = () => {
             <div className="edit-module">
               <DocstringPreview
                 docstring={file.docstring}
+                previewLanguage={previewLanguage}
                 setPreviewUrl={setPreviewUrl}
               />
 
