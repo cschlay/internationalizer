@@ -5,7 +5,7 @@ import { toTSX } from "../utils/toTSX";
 import { FileListing } from "../components/FileListing";
 import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
-import { Description } from "../components/Description";
+import { DocstringPreview } from "../components/DocstringPreview";
 import styles from "../styles/IframePreview.module.css";
 
 const HomePage = () => {
@@ -85,7 +85,7 @@ const HomePage = () => {
 
           <main>
             <div className="edit-module">
-              <Description
+              <DocstringPreview
                 docstring={file.docstring}
                 setPreviewUrl={setPreviewUrl}
               />

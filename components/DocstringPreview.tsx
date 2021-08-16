@@ -1,13 +1,14 @@
 import { ParsedDocstring } from "../types";
 import { FRONTEND_HOST, STORYBOOK_HOST } from "../config";
 import { SyntheticEvent } from "react";
+import styles from "./DocstringPreview.module.css";
 
 interface Props {
   docstring: ParsedDocstring;
   targetLanguage: string;
   setPreviewUrl: (url: string) => void;
 }
-export const Description = ({ docstring, setPreviewUrl }: Props) => {
+export const DocstringPreview = ({ docstring, setPreviewUrl }: Props) => {
   if (!docstring) {
     return null;
   }
@@ -17,20 +18,20 @@ export const Description = ({ docstring, setPreviewUrl }: Props) => {
   };
 
   return (
-    <div>
+    <div className={styles.Container}>
       <h3>Notes to translator</h3>
       <p style={{ whiteSpace: "pre-wrap", fontSize: "0.8rem" }}>
         {docstring.description.join("\n")}
       </p>
 
-      <nav>
+      <nav className={styles.PreviewLinks}>
         {docstring.storybookUrls.map((url, i) => (
           <button
             key={url}
             onClick={handlePreviewUrlChange}
             data-url={`${STORYBOOK_HOST}/${url}`}
           >
-            Storybook {i + 1}
+            Storybook
           </button>
         ))}
         {docstring.previewUrls.map((url) => (
@@ -39,10 +40,11 @@ export const Description = ({ docstring, setPreviewUrl }: Props) => {
             onClick={handlePreviewUrlChange}
             data-url={`${FRONTEND_HOST}${url}`}
           >
-            Page {url}
+            Page Preview
           </button>
         ))}
       </nav>
+      <hr />
     </div>
   );
 };

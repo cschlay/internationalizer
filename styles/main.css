@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300&display=swap');
 
 :root {
   --main-font-family: 'PT Mono', monospace;
+  --display-font: 'Nunito', sans-serif;
 }
 
 html,
