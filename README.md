@@ -61,12 +61,36 @@ you can find them at [Subtag Lookup Tool](https://r12a.github.io/app-subtags/).
 ### Defining Translation Files
 
 The suggested location to put files are `/components/**/*.i18n.tsx` and `/translations/**/*.18n.tsx`.
-Files other than those folders may not be found. Also, the structure of the file must be:
+Files other than those folders may not be found. Also, the structure of the file must be, other sructures will get overwritten:
 
-```typescript
+```typescript jsx
+/* eslint-disable react/display-name */
+import { I18nTemplate, I18nTextNode, Translation } from "@/types/Translation";
+
+/**
+ * Only one docstring allowed
+ * 
+ * Multiple preview urls and storybook urls may exists
+ * 
+ * @preview /change-password
+ * @preview /register
+ * @storybook iframe.html?id=composites-numberfield--decimal&args=type:!undefined;name:!undefined
+ */
 export const FileNameI18n: Translation = {
-    
+    exampleKey: {
+        en: "Hello",
+        fi: "Example"
+    },
+    templated: {
+        en: ({ price }) => <>It costs {price}</>,
+        fi: ({ price }) => <>Maksaa {price}</>
+    }
 };
+
+export interface FileNameI18nType {
+    exampleKey: I18nTextNode;
+    tempalted: I18nTemplate
+}
 ```
 
 The style requirement is to use semicolon `;` it makes parsing much easier and matches the style of C#.

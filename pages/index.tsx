@@ -5,6 +5,7 @@ import { toTSX } from "../utils/toTSX";
 import { FileListing } from "../components/FileListing";
 import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
+import { Description } from "../components/Description";
 
 const HomePage = () => {
   const [file, setFile] = useState<TranslationFileContent>({
@@ -14,6 +15,8 @@ const HomePage = () => {
     relativePath: "",
   });
   const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
+  const [targetLanguage, setTargetLanguage] = useState<string>("");
+  const [previewUrl, setPreviewUrl] = useState<string>("");
 
   const handleFileSelected = (filepath) => {
     if (!hasPendingChanges || window.confirm("You have unsaved changes.")) {
@@ -80,6 +83,11 @@ const HomePage = () => {
           )}
 
           <main>
+            <Description
+              docstring={file.docstring}
+              setPreviewUrl={setPreviewUrl}
+            />
+
             {file.path ? (
               <EditTable
                 translations={file.translations}
@@ -91,6 +99,8 @@ const HomePage = () => {
               </p>
             )}
           </main>
+
+          <iframe src={previewUrl} />
         </div>
       </div>
     </>

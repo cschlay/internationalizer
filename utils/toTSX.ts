@@ -19,7 +19,7 @@ export const toTSX = (content: TranslationFileContent): string => {
   const [translationTsx, tsxInterface] = extractContent(content.translations);
   tsx.push(translationTsx);
   tsx.push("}" + SEMI + "\n");
-  tsx.push(`export interface I18nContent {`);
+  tsx.push(`export interface ${objectName}I18nType {`);
   tsx.push(tsxInterface);
   tsx.push("}");
   return tsx.join("\n");

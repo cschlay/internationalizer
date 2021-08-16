@@ -1,9 +1,16 @@
 import { ReactNode } from "react";
 
+export interface ParsedDocstring {
+  description: string[];
+  storybookUrls: string[];
+  previewUrls: string[];
+}
+
 export interface TranslationFileContent {
   path: string;
   relativePath: string;
   name: string;
+  docstring?: ParsedDocstring;
   translations: Translation;
 }
 
