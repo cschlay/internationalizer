@@ -6,7 +6,6 @@ const DOCSTRING_UNIT_REGEX: RegExp = /(\/\*\*)|( \* )|( \*)/g;
 export const readDocstring = (
   matches: RegExpMatchArray | null
 ): ParsedDocstring | undefined => {
-  console.log(matches);
   if (!matches) {
     return undefined;
   }

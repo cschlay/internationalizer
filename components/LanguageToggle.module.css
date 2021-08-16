@@ -13,6 +13,17 @@
     opacity: 0.6;
 }
 
+.Container > button:hover {
+    cursor: pointer;
+    color: whitesmoke;
+    opacity: 1;
+    border-color: whitesmoke;
+}
+
+.Container > button:focus {
+    border: unset;
+}
+
 .Container > button[data-active="true"] {
     opacity: 1;
     border-color: lightblue;

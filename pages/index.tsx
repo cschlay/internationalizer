@@ -7,6 +7,7 @@ import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
 import { DocstringPreview } from "../components/DocstringPreview";
 import styles from "../styles/IframePreview.module.css";
+import { FRONTEND_HOST, STORYBOOK_HOST } from "../config";
 
 const HomePage = () => {
   const [file, setFile] = useState<TranslationFileContent>({
@@ -24,7 +25,26 @@ const HomePage = () => {
     if (!hasPendingChanges || window.confirm("You have unsaved changes.")) {
       fetch(`/api/get-file-content?file=${encodeURIComponent(filepath)}`)
         .then((res) => res.json())
-        .then(setFile)
+        .then((newFile) => {
+          if (newFile.docstring) {
+            if (newFile.docstring.storybookUrls) {
+              let url =
+                STORYBOOK_HOST + "/" + newFile.docstring.storybookUrls[0];
+              url += url.indexOf("?") === -1 ? "?" : "&";
+              setPreviewUrl(url + `lang=${previewLanguage}`);
+            } else if (newFile.docstring.previewUrls) {
+              let url = FRONTEND_HOST + newFile.docstring.previewUrls[0];
+              url += url.indexOf("?") === -1 ? "?" : "&";
+              setPreviewUrl(url + `lang=${previewLanguage}`);
+            } else {
+              setPreviewUrl("");
+            }
+          } else {
+            setPreviewUrl("");
+          }
+
+          setFile(newFile);
+        })
         .then(() => setHasPendingChanges(false));
     }
   };
@@ -65,6 +85,12 @@ const HomePage = () => {
     return () => window.removeEventListener("keydown", saveEventHandler);
   }, [handleSave]);
 
+  useEffect(() => {
+    if (previewUrl) {
+      setPreviewUrl(previewUrl.replace(/lang=.*/, `lang=${previewLanguage}`));
+    }
+  }, [previewLanguage]);
+
   return (
     <>
       <Head>
@@ -97,6 +123,7 @@ const HomePage = () => {
 
               {file.path ? (
                 <EditTable
+                  languages={activeLanguages}
                   translations={file.translations}
                   onChange={handleChange}
                 />
@@ -109,7 +136,11 @@ const HomePage = () => {
           </main>
         </div>
         <div className="preview">
-          <iframe src={previewUrl} className={styles.IframePreview} />
+          {previewUrl ? (
+            <iframe src={previewUrl} className={styles.IframePreview} />
+          ) : (
+            <p className="no-preview">No preview available.</p>
+          )}
         </div>
       </div>
     </>

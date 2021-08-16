@@ -2,12 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300&display=swap');
 
 :root {
-  --main-font-family: 'PT Mono', monospace;
   --display-font: 'Nunito', sans-serif;
+  --monospace-font: 'PT Mono', monospace;
 }
 
 html,
 body {
+  background-color: whitesmoke;
   padding: 0;
   margin: 0;
   font-family: var(--display-font);
@@ -22,10 +23,6 @@ a {
   box-sizing: border-box;
 }
 
-main {
-
-}
-
 .edit-module {
   margin: 1rem;
 }
@@ -33,7 +30,8 @@ main {
 .app {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
-  height: 99vh;
+  height: 100vh;
+  margin-right: 1rem;
 }
 
 textarea {
@@ -46,6 +44,17 @@ table {
 
 .preview {
   border: 5px solid black;
-  border-bottom-left-radius: 2rem;
-  border-bottom-right-radius: 2rem;
+  border-radius: 1.5rem;
+
+  margin-left: 1rem;
+  margin-top: 1rem;
+  height: 90vh;
+  width: 425px;
+
+  overflow: hidden;
+}
+
+.no-preview {
+  margin-top: 40%;
+  text-align: center;
 }

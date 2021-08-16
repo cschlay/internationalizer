@@ -3,6 +3,7 @@
     color: #e7d9d9;
     text-transform: uppercase;
     padding: 0.25rem;
+    border-radius: 0.25rem;
 }
 
 .Container > option {

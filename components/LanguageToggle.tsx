@@ -8,9 +8,11 @@ export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
   ) => {
     const language: string = event.currentTarget.dataset.lang;
     if (activeLanguages.includes(language)) {
-      setActiveLanguages(activeLanguages.filter((lang) => lang !== language));
+      setActiveLanguages(
+        activeLanguages.filter((lang) => lang !== language).sort()
+      );
     } else {
-      setActiveLanguages([...activeLanguages, language]);
+      setActiveLanguages([...activeLanguages, language].sort());
     }
   };
 

@@ -1,6 +1,5 @@
 .IframePreview {
     border: none;
-    height: 90%;
-    margin: 1rem;
-    width: 425px;
+    height: 100%;
+    width: 100%;
 }
