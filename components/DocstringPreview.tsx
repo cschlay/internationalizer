@@ -1,13 +1,15 @@
 import { ParsedDocstring } from "../types";
-import { FRONTEND_HOST, STORYBOOK_HOST } from "../config";
+import { APP_HOST, STORYBOOK_HOST } from "../config";
 import { SyntheticEvent } from "react";
 import styles from "./DocstringPreview.module.css";
+import { formatPreviewUrl } from "../utils/formatPreviewUrl";
 
 interface Props {
   docstring: ParsedDocstring;
   previewLanguage: string;
   setPreviewUrl: (url: string) => void;
 }
+
 export const DocstringPreview = ({
   docstring,
   previewLanguage,
@@ -19,8 +21,7 @@ export const DocstringPreview = ({
 
   const handlePreviewUrlChange = (event: SyntheticEvent<HTMLButtonElement>) => {
     let url = event.currentTarget.dataset.url;
-    url += url.indexOf("?") === -1 ? "?" : "&";
-    setPreviewUrl(`${url}lang=${previewLanguage}`);
+    setPreviewUrl(formatPreviewUrl(url, previewLanguage));
   };
 
   return (
@@ -31,20 +32,20 @@ export const DocstringPreview = ({
       </p>
 
       <nav className={styles.PreviewLinks}>
-        {docstring.storybookUrls.map((url, i) => (
+        {docstring.storybookUrls.map((url) => (
           <button
             key={url}
             onClick={handlePreviewUrlChange}
             data-url={`${STORYBOOK_HOST}/${url}`}
           >
-            Storybook
+            Component Preview
           </button>
         ))}
         {docstring.previewUrls.map((url) => (
           <button
             key={url}
             onClick={handlePreviewUrlChange}
-            data-url={`${FRONTEND_HOST}${url}`}
+            data-url={`${APP_HOST}${url}`}
           >
             Page Preview
           </button>

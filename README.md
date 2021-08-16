@@ -94,3 +94,14 @@ export interface FileNameI18nType {
 ```
 
 The style requirement is to use semicolon `;` it makes parsing much easier and matches the style of C#.
+
+### Language Previews
+
+To support previews with different languages add a development only mode for `lang` parameter which shows proper language.
+The other way is to modify the `utils/formatPreviewUrl` to prepend the language code if urls are formatted as `/{languageCode}/...`.
+
+When more than one previews exists, the first storybook url will take the highest priority since those are more specific.
+
+## Errors
+
+Absolutely no error handling exists, since the all errors must be encountered, and every operation must work at all times.
