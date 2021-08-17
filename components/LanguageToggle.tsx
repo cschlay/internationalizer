@@ -1,6 +1,7 @@
 import { LANGUAGES } from "../config";
-import styles from "./LanguageToggle.module.css";
 import { SyntheticEvent } from "react";
+
+import styles from "./LanguageToggle.module.css";
 
 export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
   const handleActiveLanguageChange = (
@@ -8,9 +9,10 @@ export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
   ) => {
     const language: string = event.currentTarget.dataset.lang;
     if (activeLanguages.includes(language)) {
-      setActiveLanguages(
-        activeLanguages.filter((lang) => lang !== language).sort()
-      );
+      const updatedLanguages = activeLanguages
+        .filter((lang) => lang !== language)
+        .sort();
+      setActiveLanguages(updatedLanguages);
     } else {
       setActiveLanguages([...activeLanguages, language].sort());
     }
@@ -21,9 +23,9 @@ export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
       {LANGUAGES.map((lang) => (
         <button
           key={lang}
-          onClick={handleActiveLanguageChange}
           data-lang={lang}
           data-active={activeLanguages.includes(lang)}
+          onClick={handleActiveLanguageChange}
         >
           {lang}
         </button>

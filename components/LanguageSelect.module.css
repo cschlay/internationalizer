@@ -1,12 +1,12 @@
 .Container {
     background: none;
-    color: #e7d9d9;
+    color: var(--color-background);
     text-transform: uppercase;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
+    padding: var(--text-padding);
+    border-radius: var(--border-radius);
 }
 
 .Container > option {
-    color: #344045;
-    padding: 0.5rem;
+    color: var(--color-foreground);
+    padding: var(--text-padding);
 }

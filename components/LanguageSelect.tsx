@@ -1,6 +1,7 @@
 import { LANGUAGES } from "../config";
-import styles from "./LanguageSelect.module.css";
 import { SyntheticEvent } from "react";
+
+import styles from "./LanguageSelect.module.css";
 
 interface Props {
   setPreviewLanguage: (language: string) => void;

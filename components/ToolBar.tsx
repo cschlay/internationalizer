@@ -1,7 +1,8 @@
-import styles from "./ToolBar.module.css";
 import { Button } from "./Button";
 import { LanguageSelect } from "./LanguageSelect";
 import { LanguageToggle } from "./LanguageToggle";
+
+import styles from "./ToolBar.module.css";
 
 interface Props {
   activeLanguages: string[];
@@ -30,19 +31,12 @@ export const ToolBar = ({
           </small>
         )}
       </div>
-      <div
-        style={{
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          gap: "2rem",
-        }}
-      >
+      <div className={styles.LanguageOptions}>
         <LanguageToggle
           activeLanguages={activeLanguages}
           setActiveLanguages={setActiveLanguages}
         />
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+        <div className={styles.PreviewLanguageContainer}>
           <small>Preview</small>
           <LanguageSelect setPreviewLanguage={setPreviewLanguage} />
         </div>

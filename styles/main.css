@@ -13,6 +13,8 @@
   --color-border: gray;
   --color-foreground: #171616;
   --color-accent: #ccdae0;
+
+  --preview-size: 400px;
 }
 
 * {
@@ -42,7 +44,7 @@ textarea {
 
 #app {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 3fr calc(var(--preview-size) + var(--spacing));
   height: 100vh;
   margin-right: var(--spacing);
 }

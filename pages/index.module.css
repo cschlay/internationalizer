@@ -1,8 +1,8 @@
 .EditPanel {
-    margin: 1rem;
+    margin: var(--spacing);
 }
 
 .WelcomeText {
-    margin: 1rem;
+    margin: var(--spacing);
     text-align: center;
 }
