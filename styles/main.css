@@ -6,6 +6,10 @@
   --monospace-font: 'PT Mono', monospace;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   background-color: whitesmoke;
@@ -19,41 +23,17 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-.edit-module {
-  margin: 1rem;
-}
-
-.app {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  height: 100vh;
-  margin-right: 1rem;
+button {
+  font-family: var(--display-font);
 }
 
 textarea {
   width: 100%;
 }
 
-table {
-  width: 100%;
-}
-
-.preview {
-  border: 5px solid black;
-  border-radius: 1.5rem;
-
-  margin-left: 1rem;
-  margin-top: 1rem;
-  height: 90vh;
-  width: 425px;
-
-  overflow: hidden;
-}
-
-button {
-  font-family: var(--display-font);
+#app {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  height: 100vh;
+  margin-right: 1rem;
 }

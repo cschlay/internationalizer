@@ -21,7 +21,7 @@
 }
 
 .Container > button:focus {
-    border: unset;
+    outline: none;
 }
 
 .Container > button[data-active="true"] {

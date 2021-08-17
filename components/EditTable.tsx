@@ -1,5 +1,6 @@
-import { Translation } from "../types";
 import { SyntheticEvent } from "react";
+import { Translation } from "../types";
+
 import styles from "./EditTable.module.css";
 
 interface Props {
@@ -20,7 +21,7 @@ export const EditTable = ({ languages, translations, onChange }: Props) => {
   if (Object.keys(translations).length === 0) {
     return (
       <p>
-        Can&apos;t edit the file, translation is malformed. The developers have
+        Can&#39;t edit the file, translation is malformed. The developers have
         probably written the source file incorrectly.
       </p>
     );

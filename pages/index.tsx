@@ -1,15 +1,17 @@
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
+
+import { DocstringPreview } from "../components/DocstringPreview";
 import { EditTable } from "../components/EditTable";
 import { FileListing } from "../components/FileListing";
+import { LivePreview } from "../components/LivePreview";
+import { services } from "../services";
 import { ToolBar } from "../components/ToolBar";
 import { TranslationFileContent } from "../types";
-import { DocstringPreview } from "../components/DocstringPreview";
-import { services } from "../services";
+import { useCallback, useState } from "react";
 import { useConfirmLeaveEffect } from "../hooks/useConfirmLeaveEffect";
 import { useCtrlSaveEffect } from "../hooks/useCtrlSaveEffect";
 
-import { LivePreview } from "../components/LivePreview";
+import styles from "./index.module.css";
 
 const HomePage = () => {
   const [file, setFile] = useState<TranslationFileContent>({
@@ -55,7 +57,7 @@ const HomePage = () => {
   useCtrlSaveEffect(handleSave);
 
   return (
-    <div className="app">
+    <div id="app">
       <Head>
         <title>Internationalizer</title>
       </Head>
@@ -76,7 +78,7 @@ const HomePage = () => {
         )}
 
         <main>
-          <div className="edit-module">
+          <div className={styles.EditPanel}>
             <DocstringPreview
               docstring={file.docstring}
               previewLanguage={previewLanguage}
@@ -90,8 +92,8 @@ const HomePage = () => {
                 onChange={handleChange}
               />
             ) : (
-              <p style={{ textAlign: "center" }}>
-                Start tranlating by selecting file in the left
+              <p className={styles.WelcomeText}>
+                Start translation by selecting a file in the left.
               </p>
             )}
           </div>
