@@ -1,5 +1,12 @@
-import styles from "./FileListing.module.css";
+import {
+  CategorizedFiles,
+  categorizeFiles,
+  FileMeta,
+} from "../utils/categorizeFiles";
 import { SyntheticEvent, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+
+import styles from "./FileListing.module.css";
 
 interface Props {
   activeFilePath: string;
@@ -7,41 +14,24 @@ interface Props {
 }
 
 export const FileListing = ({ activeFilePath, onFileSelected }: Props) => {
+  const router = useRouter();
   const [files, setFiles] = useState<string[]>([]);
 
-  const handleFileSelect = (event: SyntheticEvent<HTMLLIElement>) => {
+  const handleFileSelect = async (event: SyntheticEvent<HTMLLIElement>) => {
     onFileSelected(event.currentTarget.dataset.path);
+    await router.push(
+      `?file=${encodeURIComponent(event.currentTarget.dataset.path)}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   };
 
-  const categorized = useMemo<CategorizedFiles>(() => {
-    const result: CategorizedFiles = {
-      components: [],
-      pages: [],
-      miscellaneous: [],
-    };
-    files.forEach((filepath) => {
-      const parts = filepath.split("/");
-      if (parts.includes("pages")) {
-        const url = filepath.split("pages")[1].replace(".i18n.tsx", "");
-        result.pages.push({
-          name: url,
-          path: filepath,
-        });
-      } else if (parts.includes("components")) {
-        result.components.push({
-          // Omits the prefix /components, and the duplicate part FileName/FileName.i18n.ts
-          name: parts.slice(2, -1).join("/"),
-          path: filepath,
-        });
-      } else {
-        result.miscellaneous.push({
-          name: parts[parts.length - 1],
-          path: filepath,
-        });
-      }
-    });
-    return result;
-  }, [files]);
+  const categorized = useMemo<CategorizedFiles>(
+    () => categorizeFiles(files),
+    [files]
+  );
 
   useEffect(() => {
     fetch("/api/list-translation-files")
@@ -52,49 +42,53 @@ export const FileListing = ({ activeFilePath, onFileSelected }: Props) => {
   return (
     <div className={styles.Container}>
       <h2>Components</h2>
-      <ul className={styles.Listing}>
-        {categorized.components.map((component) => (
-          <FileListingRecord
-            key={component.name}
-            activeFilePath={activeFilePath}
-            file={component}
-            onClick={handleFileSelect}
-          />
-        ))}
-      </ul>
+      <Listing
+        activeFilePath={activeFilePath}
+        listable={categorized.components}
+        onSelect={handleFileSelect}
+      />
       <h2>Pages</h2>
-      <ul className={styles.Listing}>
-        {categorized.pages.map((page) => (
-          <FileListingRecord
-            key={page.name}
-            activeFilePath={activeFilePath}
-            file={page}
-            onClick={handleFileSelect}
-          />
-        ))}
-      </ul>
+      <Listing
+        activeFilePath={activeFilePath}
+        listable={categorized.pages}
+        onSelect={handleFileSelect}
+      />
 
       <h2>Miscellaneous</h2>
-      <ul className={styles.Listing}>
-        {categorized.miscellaneous.map((file) => (
-          <FileListingRecord
-            key={file.name}
-            activeFilePath={activeFilePath}
-            file={file}
-            onClick={handleFileSelect}
-          />
-        ))}
-      </ul>
+      <Listing
+        activeFilePath={activeFilePath}
+        listable={categorized.miscellaneous}
+        onSelect={handleFileSelect}
+      />
     </div>
+  );
+};
+
+interface ListingProps {
+  activeFilePath: string;
+  listable: FileMeta[];
+  onSelect: (event: SyntheticEvent<HTMLLIElement>) => void;
+}
+const Listing = ({ activeFilePath, listable, onSelect }: ListingProps) => {
+  return (
+    <ul className={styles.Listing}>
+      {listable.map((file) => (
+        <FileListingRecord
+          key={file.name}
+          activeFilePath={activeFilePath}
+          file={file}
+          onClick={onSelect}
+        />
+      ))}
+    </ul>
   );
 };
 
 interface FileListingRecordProps {
   activeFilePath: string;
-  file: Meta;
+  file: FileMeta;
   onClick: (event: SyntheticEvent<HTMLLIElement>) => void;
 }
-
 const FileListingRecord = ({
   activeFilePath,
   file,
@@ -111,14 +105,3 @@ const FileListingRecord = ({
     </li>
   );
 };
-
-interface Meta {
-  name: string;
-  path: string;
-}
-
-interface CategorizedFiles {
-  components: Meta[];
-  pages: Meta[];
-  miscellaneous: Meta[];
-}

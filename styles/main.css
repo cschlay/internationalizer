@@ -12,6 +12,7 @@
   --color-background: whitesmoke;
   --color-border: gray;
   --color-foreground: #171616;
+  --color-accent: #ccdae0;
 }
 
 * {
