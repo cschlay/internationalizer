@@ -10,15 +10,13 @@ import styles from "./FileListing.module.css";
 
 interface Props {
   activeFilePath: string;
-  onFileSelected: (filepath: string) => void;
 }
 
-export const FileListing = ({ activeFilePath, onFileSelected }: Props) => {
+export const FileListing = ({ activeFilePath }: Props) => {
   const router = useRouter();
   const [files, setFiles] = useState<string[]>([]);
 
   const handleFileSelect = async (event: SyntheticEvent<HTMLLIElement>) => {
-    onFileSelected(event.currentTarget.dataset.path);
     await router.push(
       `?file=${encodeURIComponent(event.currentTarget.dataset.path)}`,
       undefined,

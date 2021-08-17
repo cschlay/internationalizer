@@ -5,3 +5,7 @@ export const STORYBOOK_HOST: string = "http://localhost:6006";
 
 export const LANGUAGES: string[] =
   process.env.NEXT_PUBLIC_LANGUAGES.split(",").sort();
+
+export const DEFAULT_LANGUAGE = "en";
+
+export const LOCALSTORAGE_KEY_LANGUAGES = "languages";

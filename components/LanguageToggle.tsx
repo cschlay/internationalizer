@@ -1,4 +1,4 @@
-import { LANGUAGES } from "../config";
+import { LANGUAGES, LOCALSTORAGE_KEY_LANGUAGES } from "../config";
 import { SyntheticEvent } from "react";
 
 import styles from "./LanguageToggle.module.css";
@@ -13,8 +13,19 @@ export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
         .filter((lang) => lang !== language)
         .sort();
       setActiveLanguages(updatedLanguages);
+
+      localStorage.setItem(
+        LOCALSTORAGE_KEY_LANGUAGES,
+        JSON.stringify(updatedLanguages)
+      );
     } else {
-      setActiveLanguages([...activeLanguages, language].sort());
+      const updatedLanguages = [...activeLanguages, language].sort();
+      setActiveLanguages(updatedLanguages);
+
+      localStorage.setItem(
+        LOCALSTORAGE_KEY_LANGUAGES,
+        JSON.stringify(updatedLanguages)
+      );
     }
   };
 
