@@ -3,8 +3,7 @@
     align-items: center;
     justify-content: space-between;
     background-color: var(--color-foreground);
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+    border-radius: var(--border-radius);
 
     width: 100%;
     padding: var(--spacing);
