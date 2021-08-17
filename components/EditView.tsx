@@ -1,7 +1,7 @@
 import { SyntheticEvent } from "react";
 import { Translation } from "../types";
 
-import styles from "./EditTable.module.css";
+import styles from "./EditView.module.css";
 
 interface Props {
   languages: string[];
@@ -9,7 +9,7 @@ interface Props {
   onChange: (language: string, key: string, value: string) => void;
 }
 
-export const EditTable = ({ languages, translations, onChange }: Props) => {
+export const EditView = ({ languages, translations, onChange }: Props) => {
   const handleChange = (event: SyntheticEvent<HTMLTextAreaElement>) => {
     onChange(
       event.currentTarget.dataset.lang,
@@ -31,18 +31,17 @@ export const EditTable = ({ languages, translations, onChange }: Props) => {
     <>
       {Object.entries(translations).map(([key, texts]) => (
         <div key={key} className={styles.Card}>
-          <div className={styles.Key}>
-            <b>{key}</b>
-          </div>
+          <div className={styles.Key}>{key}</div>
           {languages.map((lang) => (
             <div key={`${key}-${lang}`} className={styles.LanguageRow}>
               <small className={styles.LanguageTag}>{lang}</small>
               <textarea
                 className={styles.TextField}
-                value={texts[lang] as string}
                 data-key={key}
                 data-lang={lang}
                 onChange={handleChange}
+                spellCheck={false}
+                value={texts[lang] as string}
               />
             </div>
           ))}

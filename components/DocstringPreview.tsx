@@ -1,6 +1,7 @@
-import { ParsedDocstring } from "../types";
 import { APP_HOST, STORYBOOK_HOST } from "../config";
+import { ParsedDocstring } from "../types";
 import { SyntheticEvent } from "react";
+
 import styles from "./DocstringPreview.module.css";
 
 interface Props {
@@ -21,10 +22,8 @@ export const DocstringPreview = ({ docstring, setPreviewUrl }: Props) => {
 
   return (
     <div className={styles.Container}>
-      <h3>Notes to translator</h3>
-      <p style={{ whiteSpace: "pre-wrap", fontSize: "0.8rem" }}>
-        {docstring.description.join("\n")}
-      </p>
+      <h3>Note to translator</h3>
+      <p className={styles.Description}>{docstring.description.join("\n")}</p>
 
       <nav className={styles.PreviewLinks}>
         {docstring.storybookUrls.map((url) => (

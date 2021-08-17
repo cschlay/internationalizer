@@ -1,9 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300&display=swap');
 
 :root {
   --display-font: 'Nunito', sans-serif;
-  --monospace-font: 'PT Mono', monospace;
+  --monospace-font: 'Courier Prime', monospace;
+
+  --border-radius: 0.25rem;
+  --spacing: 1rem;
+  --text-padding-small: 0.25rem;
+  --text-padding: 0.5rem;
+  --color-background: whitesmoke;
+  --color-border: gray;
+  --color-foreground: #171616;
 }
 
 * {
@@ -12,7 +20,7 @@
 
 html,
 body {
-  background-color: whitesmoke;
+  background-color: var(--color-background);
   padding: 0;
   margin: 0;
   font-family: var(--display-font);
@@ -35,5 +43,5 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   height: 100vh;
-  margin-right: 1rem;
+  margin-right: var(--spacing);
 }

@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { DocstringPreview } from "../components/DocstringPreview";
-import { EditTable } from "../components/EditTable";
+import { EditView } from "../components/EditView";
 import { FileListing } from "../components/FileListing";
 import { LivePreview } from "../components/LivePreview";
 import { services } from "../services";
@@ -86,7 +86,7 @@ const HomePage = () => {
             />
 
             {file.path ? (
-              <EditTable
+              <EditView
                 languages={activeLanguages}
                 translations={file.translations}
                 onChange={handleChange}
