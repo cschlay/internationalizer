@@ -4,10 +4,7 @@ import { TranslationFileContent } from "../types";
 /**
  * Retrieves the file content and parses the preview urls.
  */
-const getFileContent = async (
-  filepath: string,
-  previewLanguage: string
-): Promise<ResponseData> => {
+const getFileContent = async (filepath: string): Promise<ResponseData> => {
   const url: string = `/api/get-file-content?file=${encodeURIComponent(
     filepath
   )}`;
@@ -27,7 +24,7 @@ const getFileContent = async (
 
   return {
     data: content,
-    previewUrl: formatPreviewUrl(previewUrl, previewLanguage),
+    previewUrl: formatPreviewUrl(previewUrl),
   };
 };
 

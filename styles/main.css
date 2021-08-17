@@ -54,7 +54,6 @@ table {
   overflow: hidden;
 }
 
-.no-preview {
-  margin-top: 40%;
-  text-align: center;
+button {
+  font-family: var(--display-font);
 }

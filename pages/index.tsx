@@ -9,7 +9,7 @@ import { services } from "../services";
 import { useConfirmLeaveEffect } from "../hooks/useConfirmLeaveEffect";
 import { useCtrlSaveEffect } from "../hooks/useCtrlSaveEffect";
 
-import styles from "../styles/IframePreview.module.css";
+import { LivePreview } from "../components/LivePreview";
 
 const HomePage = () => {
   const [file, setFile] = useState<TranslationFileContent>({
@@ -29,7 +29,7 @@ const HomePage = () => {
       window.confirm("You have unsaved changes. Do you want leave the page?")
     ) {
       services
-        .getFileContent(filepath, previewLanguage)
+        .getFileContent(filepath)
         .then((response) => {
           setFile(response.data);
           setPreviewUrl(response.previewUrl);
@@ -54,66 +54,51 @@ const HomePage = () => {
   useConfirmLeaveEffect(hasPendingChanges);
   useCtrlSaveEffect(handleSave);
 
-  useEffect(() => {
-    if (previewUrl) {
-      const url = previewUrl.replace(/lang=.*/, `lang=${previewLanguage}`);
-      setPreviewUrl(url);
-    }
-  }, [previewLanguage, previewUrl]);
-
   return (
-    <>
+    <div className="app">
       <Head>
         <title>Internationalizer</title>
       </Head>
-      <div className="app">
-        <FileListing
-          activeFilePath={file.relativePath}
-          onFileSelected={handleFileSelected}
-        />
+      <FileListing
+        activeFilePath={file.relativePath}
+        onFileSelected={handleFileSelected}
+      />
 
-        <div>
-          {file.path && (
-            <ToolBar
-              activeLanguages={activeLanguages}
-              setActiveLanguages={setActiveLanguages}
-              setPreviewLanguage={setPreviewLanguage}
-              hasPendingChanges={hasPendingChanges}
-              onSave={handleSave}
+      <div>
+        {file.path && (
+          <ToolBar
+            activeLanguages={activeLanguages}
+            setActiveLanguages={setActiveLanguages}
+            setPreviewLanguage={setPreviewLanguage}
+            hasPendingChanges={hasPendingChanges}
+            onSave={handleSave}
+          />
+        )}
+
+        <main>
+          <div className="edit-module">
+            <DocstringPreview
+              docstring={file.docstring}
+              previewLanguage={previewLanguage}
+              setPreviewUrl={setPreviewUrl}
             />
-          )}
 
-          <main>
-            <div className="edit-module">
-              <DocstringPreview
-                docstring={file.docstring}
-                previewLanguage={previewLanguage}
-                setPreviewUrl={setPreviewUrl}
+            {file.path ? (
+              <EditTable
+                languages={activeLanguages}
+                translations={file.translations}
+                onChange={handleChange}
               />
-
-              {file.path ? (
-                <EditTable
-                  languages={activeLanguages}
-                  translations={file.translations}
-                  onChange={handleChange}
-                />
-              ) : (
-                <p style={{ textAlign: "center" }}>
-                  Start tranlating by selecting file in the left
-                </p>
-              )}
-            </div>
-          </main>
-        </div>
-        <div className="preview">
-          {previewUrl ? (
-            <iframe src={previewUrl} className={styles.IframePreview} />
-          ) : (
-            <p className="no-preview">No preview available.</p>
-          )}
-        </div>
+            ) : (
+              <p style={{ textAlign: "center" }}>
+                Start tranlating by selecting file in the left
+              </p>
+            )}
+          </div>
+        </main>
       </div>
-    </>
+      <LivePreview languageCode={previewLanguage} previewUrl={previewUrl} />
+    </div>
   );
 };
 

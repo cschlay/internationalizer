@@ -2,7 +2,6 @@ import { ParsedDocstring } from "../types";
 import { APP_HOST, STORYBOOK_HOST } from "../config";
 import { SyntheticEvent } from "react";
 import styles from "./DocstringPreview.module.css";
-import { formatPreviewUrl } from "../utils/formatPreviewUrl";
 
 interface Props {
   docstring: ParsedDocstring;
@@ -10,18 +9,14 @@ interface Props {
   setPreviewUrl: (url: string) => void;
 }
 
-export const DocstringPreview = ({
-  docstring,
-  previewLanguage,
-  setPreviewUrl,
-}: Props) => {
+export const DocstringPreview = ({ docstring, setPreviewUrl }: Props) => {
   if (!docstring) {
     return null;
   }
 
   const handlePreviewUrlChange = (event: SyntheticEvent<HTMLButtonElement>) => {
-    let url = event.currentTarget.dataset.url;
-    setPreviewUrl(formatPreviewUrl(url, previewLanguage));
+    const { url } = event.currentTarget.dataset;
+    setPreviewUrl(url);
   };
 
   return (

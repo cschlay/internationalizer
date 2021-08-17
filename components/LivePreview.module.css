@@ -1,0 +1,22 @@
+.MobileFrame {
+    border: 5px solid black;
+    border-radius: 1.5rem;
+
+    margin-left: 1rem;
+    margin-top: 1rem;
+    height: 90vh;
+    width: 400px;
+
+    overflow: hidden;
+}
+
+.MobileFrame > iframe {
+    border: none;
+    height: 100%;
+    width: 100%;
+}
+
+.NoPreview {
+    margin-top: 50%;
+    text-align: center;
+}

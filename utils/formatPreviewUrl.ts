@@ -4,10 +4,7 @@ import { APP_HOST, STORYBOOK_HOST } from "../config";
  * Formats the url so that they can be opened in browsers.
  * It prepends STORYBOOK_HOST or APP_HOST to the url and appends "lang" parameter.
  */
-export const formatPreviewUrl = (
-  relativeUrl: string,
-  languageCode: string
-): string => {
+export const formatPreviewUrl = (relativeUrl: string): string => {
   if (!relativeUrl) {
     return "";
   }
@@ -20,9 +17,8 @@ export const formatPreviewUrl = (
   // Sometimes developers are accustomed to append the slash, and sometimes not.
   const slash: string = relativeUrl[0] === "/" ? "" : "/";
 
-  const languageParam: string = `lang=${languageCode}`;
   const hasQueryString: boolean = relativeUrl.indexOf("?") !== -1;
   const separator: string = hasQueryString ? "&" : "?";
 
-  return `${host}${slash}${relativeUrl}${separator}${languageParam}`;
+  return `${host}${slash}${relativeUrl}${separator}`;
 };
