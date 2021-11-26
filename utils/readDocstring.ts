@@ -7,7 +7,7 @@ export const readDocstring = (
   matches: RegExpMatchArray | null
 ): ParsedDocstring | undefined => {
   if (!matches) {
-    return undefined;
+    return null;
   }
   const docstring: string = matches[0];
 

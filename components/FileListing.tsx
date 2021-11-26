@@ -1,105 +1,34 @@
-import {
-  CategorizedFiles,
-  categorizeFiles,
-  FileMeta,
-} from "../utils/categorizeFiles";
-import { SyntheticEvent, useEffect, useMemo, useState } from "react";
+import { SyntheticEvent } from "react";
 import { useRouter } from "next/router";
-
 import styles from "./FileListing.module.css";
+import { TranslationFiles } from "../types";
+import { ListCategory } from "./ListCategory";
 
 interface Props {
-  activeFilePath: string;
+  data: TranslationFiles;
 }
 
-export const FileListing = ({ activeFilePath }: Props) => {
+export const FileListing = ({ data }: Props) => {
   const router = useRouter();
-  const [files, setFiles] = useState<string[]>([]);
 
-  const handleFileSelect = async (event: SyntheticEvent<HTMLLIElement>) => {
-    await router.push(
-      `?file=${encodeURIComponent(event.currentTarget.dataset.path)}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    );
+  const handleOpen = async (event: SyntheticEvent<HTMLLIElement>) => {
+    await router.push({
+      pathname: router.pathname,
+      query: {
+        file: encodeURIComponent(event.currentTarget.dataset.path),
+        name: encodeURIComponent(event.currentTarget.dataset.name),
+        project: router.query.project,
+      },
+    });
   };
-
-  const categorized = useMemo<CategorizedFiles>(
-    () => categorizeFiles(files),
-    [files]
-  );
-
-  useEffect(() => {
-    fetch("/api/list-translation-files")
-      .then((res) => res.json())
-      .then(setFiles);
-  }, []);
 
   return (
     <div className={styles.Container}>
       <h2>Components</h2>
-      <Listing
-        activeFilePath={activeFilePath}
-        listable={categorized.components}
-        onSelect={handleFileSelect}
-      />
+      <ListCategory data={data.components} onOpen={handleOpen} />
+
       <h2>Pages</h2>
-      <Listing
-        activeFilePath={activeFilePath}
-        listable={categorized.pages}
-        onSelect={handleFileSelect}
-      />
-
-      <h2>Miscellaneous</h2>
-      <Listing
-        activeFilePath={activeFilePath}
-        listable={categorized.miscellaneous}
-        onSelect={handleFileSelect}
-      />
+      <ListCategory data={data.pages} onOpen={handleOpen} />
     </div>
-  );
-};
-
-interface ListingProps {
-  activeFilePath: string;
-  listable: FileMeta[];
-  onSelect: (event: SyntheticEvent<HTMLLIElement>) => void;
-}
-const Listing = ({ activeFilePath, listable, onSelect }: ListingProps) => {
-  return (
-    <ul className={styles.Listing}>
-      {listable.map((file) => (
-        <FileListingRecord
-          key={file.name}
-          activeFilePath={activeFilePath}
-          file={file}
-          onClick={onSelect}
-        />
-      ))}
-    </ul>
-  );
-};
-
-interface FileListingRecordProps {
-  activeFilePath: string;
-  file: FileMeta;
-  onClick: (event: SyntheticEvent<HTMLLIElement>) => void;
-}
-const FileListingRecord = ({
-  activeFilePath,
-  file,
-  onClick,
-}: FileListingRecordProps) => {
-  return (
-    <li
-      className={styles.ListingRecord}
-      data-active={file.path === activeFilePath}
-      data-path={file.path}
-      onClick={onClick}
-    >
-      {file.name}
-    </li>
   );
 };

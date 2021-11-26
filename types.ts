@@ -11,7 +11,26 @@ export interface TranslationFileContent {
   relativePath: string;
   name: string;
   docstring?: ParsedDocstring;
-  translations: Translation;
+  content: Translation;
+  locales: string[];
+}
+
+//
+
+export interface ComponentMeta {
+  path: string;
+  name: string;
+}
+
+export interface PageMeta {
+  path: string;
+  name: string;
+  url: string;
+}
+
+export interface TranslationFiles {
+  components: ComponentMeta[];
+  pages: PageMeta[];
 }
 
 // The following definitions are same in every project. Copy these to `types/Translation.ts`

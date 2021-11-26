@@ -15,11 +15,47 @@ export const readTranslation = (
 
   const cleanedTranslation: string = translations[0]
     .replace(/export const .*: Translation = /gs, "")
-    .replace(/\(.*\) => /g, "")
     .replace(/<>/g, '"')
+    .replace(/\({.*.}\) =>/g, "")
     .replace(/<\/>/g, '"');
 
-  let result;
-  eval("result = " + cleanedTranslation);
+  let tokens = cleanedTranslation.split(" ");
+
+  const result = {};
+
+  let read = false;
+
+  let key;
+  let locale;
+  let text = [];
+  for (const token of tokens) {
+    if (token === "{\n" && !read) {
+      read = true;
+    } else if (token !== "") {
+      if (key) {
+        if (locale) {
+          text.push(token);
+          if (token.endsWith("`,\n") || token.endsWith('",\n')) {
+            const tt = text.join(" ").replace(",\n", "").trim();
+            result[key][locale] = tt.slice(1, tt.length - 1);
+            text = [];
+            locale = undefined;
+          }
+        } else if (token === "},\n" || token === "},\n};") {
+          locale = undefined;
+          key = undefined;
+        } else if (token !== "{\n") {
+          // No locale
+          locale = token.replace(":", "");
+          result[key][locale] = "";
+        }
+      } else {
+        // No key
+        key = token.replace(":", "");
+        result[key] = {};
+      }
+    }
+  }
+
   return result;
 };
