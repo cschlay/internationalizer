@@ -1,0 +1,19 @@
+.ListCategory {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ListCategory > li {
+    border-radius: 0.5rem;
+    margin: 0.25rem 0;
+    padding: 0.5rem;
+}
+
+.ListCategory > li:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.ListCategory > li[data-active=true] {
+    background-color: lightblue;
+}

@@ -1,28 +1,5 @@
 .Container {
     overflow: scroll;
+    height: 90vh;
     padding: 0 var(--spacing);
-}
-
-.Container > h2 {
-    margin-bottom: var(--text-padding);
-}
-
-.Listing {
-    font-size: 0.8rem;
-    list-style-type: none;
-    padding: 0;
-}
-
-.ListingRecord {
-    padding: var(--text-padding);
-}
-
-.ListingRecord:hover {
-    background-color: var(--color-accent);
-    cursor: pointer;
-}
-
-.ListingRecord[data-active="true"] {
-    background-color: var(--color-foreground);
-    color: var(--color-background);
 }

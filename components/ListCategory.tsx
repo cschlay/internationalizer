@@ -1,6 +1,7 @@
-import { SyntheticEvent } from "react";
-import styles from "./FileListing.module.css";
 import { ComponentMeta, PageMeta } from "../types";
+import { SyntheticEvent } from "react";
+import css from "./ListCategory.module.css";
+import { useRouter } from "next/router";
 
 interface ListingProps {
   data: Array<ComponentMeta | PageMeta>;
@@ -8,11 +9,14 @@ interface ListingProps {
 }
 
 export const ListCategory = ({ data, onOpen }: ListingProps) => {
+  const router = useRouter();
+
   return (
-    <ul className={styles.Listing}>
+    <ul className={css.ListCategory}>
       {data.map((file) => (
         <li
           key={file.path}
+          data-active={router.query.name === file.name}
           data-name={file.name}
           data-path={file.path}
           onClick={onOpen}
