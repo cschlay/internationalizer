@@ -9,22 +9,22 @@ const SEMI = `;`;
  *
  * It automatically adds ESLint exceptions, type imports, and the interface.
  */
-export const toTSX = (content: TranslationFileContent): string => {
+export const toTSX = (data: TranslationFileContent): string => {
   let tsx: string[] = [
     "/* eslint-disable react/display-name */",
     `import { I18nTemplate, I18nTextNode, Translation } from "@/types/Translation"${SEMI}\n`,
   ];
 
-  if (content.docstring) {
-    tsx = tsx.concat(convertDocstring(content.docstring));
+  if (data.docstring) {
+    tsx = tsx.concat(convertDocstring(data.docstring));
   }
-  const [objectName]: string[] = content.name.split(".");
+  const [objectName]: string[] = data.name.split(".");
   tsx.push(`export const ${objectName}I18n: Translation = {`);
 
-  const [translationTsx, tsxInterface] = extractContent(content.translations);
+  const [translationTsx, tsxInterface] = extractContent(data.content);
   tsx.push(translationTsx);
   tsx.push("}" + SEMI + "\n");
-  tsx.push(`export interface ${objectName}I18nType {`);
+  tsx.push(`export interface ${objectName}I18n {`);
   tsx.push(tsxInterface);
   tsx.push("}");
   return tsx.join("\n");
@@ -61,7 +61,7 @@ const extractContent = (content: Translation): string[] => {
     if (isTemplated) {
       tsxInterface.push(INDENT + `${key}: I18nTemplate` + SEMI);
     } else {
-      tsxInterface.push(INDENT + `${key}: I18nTextNode` + SEMI);
+      tsxInterface.push(INDENT + `${key}: string` + SEMI);
     }
   }
   return [tsx.join("\n"), tsxInterface.join("\n")];

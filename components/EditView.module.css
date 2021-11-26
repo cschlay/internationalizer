@@ -1,15 +1,17 @@
 .Card {
     background-color: white;
-    border: 1px solid lightgray;
     border-radius: var(--border-radius);
     padding: var(--spacing);
-    margin: var(--spacing) 0;
+    margin: 2rem 1rem;
+
+    box-shadow: 2px 2px 5px 1px lightgray;
 }
 
 .Key {
+    font-size: 1.25rem;
     font-weight: bold;
     font-family: var(--display-font);
-    margin-bottom: var(--text-padding);
+    margin-bottom: 1rem;
 }
 
 .LanguageRow {
@@ -22,7 +24,8 @@
 }
 
 .LanguageTag {
-    opacity: 0.6;
+    opacity: 0.75;
+    text-transform: uppercase;
 }
 
 .TextField {

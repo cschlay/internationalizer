@@ -1,14 +1,13 @@
 import glob from "glob";
 import { GetServerSideProps } from "next";
 import { TranslationFileContent, TranslationFiles } from "../../types";
-import Head from "next/head";
-import { FileListing } from "../../components/FileListing";
 import { readFileContent } from "../../utils/readFileContent";
 import { ToolBar } from "../../components/ToolBar";
-import css from "./session.module.css";
 import { DocstringPreview } from "../../components/DocstringPreview";
 import { EditView } from "../../components/EditView";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { MainLayout } from "../../components/MainLayout";
+import { toTSX } from "../../utils/toTSX";
 
 interface Props {
   files: TranslationFiles;
@@ -16,7 +15,22 @@ interface Props {
 }
 
 const SessionPage = ({ files, content }: Props) => {
+  const [previewLocale, setPreviewLocale] = useState<string>("en");
+  const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
   const [translation, setTranslation] = useState(null);
+
+  const handleChange = (locale: string, key: string, value: string) => {
+    setHasPendingChanges(true);
+    const languages = { ...translation[key], [locale]: value };
+    setTranslation({ ...translation, [key]: languages });
+  };
+
+  const handleSave = () => {
+    // TODO: Call save
+    console.log(toTSX({ ...content, content: translation }));
+
+    setHasPendingChanges(false);
+  };
 
   useEffect(() => {
     if (content) {
@@ -24,58 +38,41 @@ const SessionPage = ({ files, content }: Props) => {
     }
   }, [content]);
 
-  if (!translation) {
-    return (
-      <div className={css.Layout}>
-        <Head>
-          <title>Internationalizer</title>
-        </Head>
-        <FileListing data={files} />
-      </div>
-    );
-  }
-
   return (
-    <div className={css.Layout}>
-      <Head>
-        <title>Internationalizer</title>
-      </Head>
-      <FileListing data={files} />
-
-      <div>
-        {content.path && (
-          <ToolBar
-            activeLanguages={content.locales}
-            setActiveLanguages={() => {}}
-            setPreviewLanguage={() => {}}
-            hasPendingChanges={false}
-            onSave={() => {}}
-          />
-        )}
-
-        <main>
-          <div className={css.EditPanel}>
-            <DocstringPreview
-              docstring={translation.docstring}
-              previewLanguage={"en"}
-              setPreviewUrl={() => {}}
+    <MainLayout files={files}>
+      {translation && (
+        <div>
+          {content.path && (
+            <ToolBar
+              locales={content.locales}
+              activeLanguages={content.locales}
+              setActiveLanguages={() => {}}
+              setPreviewLanguage={setPreviewLocale}
+              hasPendingChanges={hasPendingChanges}
+              onSave={handleSave}
             />
+          )}
 
-            {content.path ? (
-              <EditView
-                languages={content.locales}
-                translations={content.content}
-                onChange={() => {}}
+          <main>
+            <div>
+              <DocstringPreview
+                docstring={translation.docstring}
+                previewLanguage={previewLocale}
+                setPreviewUrl={() => {}}
               />
-            ) : (
-              <p className={css.WelcomeText}>
-                Start translation by selecting a file in the left.
-              </p>
-            )}
-          </div>
-        </main>
-      </div>
-    </div>
+
+              {content.path && (
+                <EditView
+                  languages={content.locales}
+                  translations={translation}
+                  onChange={handleChange}
+                />
+              )}
+            </div>
+          </main>
+        </div>
+      )}
+    </MainLayout>
   );
 };
 

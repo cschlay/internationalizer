@@ -1,20 +1,20 @@
-import { LANGUAGES } from "../config";
 import { SyntheticEvent } from "react";
 
 import styles from "./LanguageSelect.module.css";
 
 interface Props {
+  locales: string[];
   setPreviewLanguage: (language: string) => void;
 }
 
-export const LanguageSelect = ({ setPreviewLanguage }: Props) => {
+export const LanguageSelect = ({ locales, setPreviewLanguage }: Props) => {
   const handleChange = (event: SyntheticEvent<HTMLSelectElement>) => {
     setPreviewLanguage(event.currentTarget.value);
   };
 
   return (
     <select className={styles.Container} onChange={handleChange}>
-      {LANGUAGES.map((lang) => (
+      {locales.map((lang) => (
         <option key={lang} value={lang}>
           {lang}
         </option>

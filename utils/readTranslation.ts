@@ -15,10 +15,13 @@ export const readTranslation = (
 
   const cleanedTranslation: string = translations[0]
     .replace(/export const .*: Translation = /gs, "")
-    .replace(/<>/g, '"')
     .replace(/\({.*.}\) =>/g, "")
+    // Remove react fragments with spaces (\n<>SPACES
+    .replace(/\(\n\s*<>\n/g, '"')
+    .replace(/<\/>\n\s*\)/g, '"')
+    // The normal fragments
+    .replace(/<>/g, '"')
     .replace(/<\/>/g, '"');
-
   let tokens = cleanedTranslation.split(" ");
 
   const result = {};
@@ -36,8 +39,12 @@ export const readTranslation = (
         if (locale) {
           text.push(token);
           if (token.endsWith("`,\n") || token.endsWith('",\n')) {
-            const tt = text.join(" ").replace(",\n", "").trim();
-            result[key][locale] = tt.slice(1, tt.length - 1);
+            const tt = text
+              .join(" ")
+              .replace("\n ", "")
+              .replace(",\n", "")
+              .replaceAll("$", "");
+            result[key][locale] = tt.slice(1, tt.length - 1).trim();
             text = [];
             locale = undefined;
           }

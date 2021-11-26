@@ -5,6 +5,7 @@ import { LanguageToggle } from "./LanguageToggle";
 import styles from "./ToolBar.module.css";
 
 interface Props {
+  locales: string[];
   activeLanguages: string[];
   setActiveLanguages: (languages: string[]) => void;
   setPreviewLanguage: (language: string) => void;
@@ -14,6 +15,7 @@ interface Props {
 
 export const ToolBar = ({
   activeLanguages,
+  locales,
   setActiveLanguages,
   setPreviewLanguage,
   hasPendingChanges,
@@ -32,13 +34,12 @@ export const ToolBar = ({
         )}
       </div>
       <div className={styles.LanguageOptions}>
-        <LanguageToggle
-          activeLanguages={activeLanguages}
-          setActiveLanguages={setActiveLanguages}
-        />
         <div className={styles.PreviewLanguageContainer}>
           <small>Preview</small>
-          <LanguageSelect setPreviewLanguage={setPreviewLanguage} />
+          <LanguageSelect
+            locales={locales}
+            setPreviewLanguage={setPreviewLanguage}
+          />
         </div>
       </div>
     </div>

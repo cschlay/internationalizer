@@ -31,7 +31,10 @@ export const EditView = ({ languages, translations, onChange }: Props) => {
     <>
       {Object.entries(translations).map(([key, texts]) => (
         <div key={key} className={styles.Card}>
-          <div className={styles.Key}>{key}</div>
+          <div className={styles.Key}>
+            {key.charAt(0).toUpperCase() +
+              key.replace(/([A-Z])/g, " $1").slice(1)}
+          </div>
           {languages.map((lang) => (
             <div key={`${key}-${lang}`} className={styles.LanguageRow}>
               <small className={styles.LanguageTag}>{lang}</small>
@@ -42,6 +45,7 @@ export const EditView = ({ languages, translations, onChange }: Props) => {
                 onChange={handleChange}
                 spellCheck={false}
                 value={texts[lang] as string}
+                rows={1}
               />
             </div>
           ))}

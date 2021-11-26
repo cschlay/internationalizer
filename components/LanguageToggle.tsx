@@ -1,9 +1,13 @@
-import { LANGUAGES, LOCALSTORAGE_KEY_LANGUAGES } from "../config";
+import { LOCALSTORAGE_KEY_LANGUAGES } from "../config";
 import { SyntheticEvent } from "react";
 
 import styles from "./LanguageToggle.module.css";
 
-export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
+export const LanguageToggle = ({
+  locales,
+  activeLanguages,
+  setActiveLanguages,
+}) => {
   const handleActiveLanguageChange = (
     event: SyntheticEvent<HTMLButtonElement>
   ) => {
@@ -31,7 +35,7 @@ export const LanguageToggle = ({ activeLanguages, setActiveLanguages }) => {
 
   return (
     <div className={styles.Container}>
-      {LANGUAGES.map((lang) => (
+      {locales.map((lang) => (
         <button
           key={lang}
           data-lang={lang}
