@@ -1,20 +1,26 @@
 import glob from "glob";
 import { GetServerSideProps } from "next";
-import { TranslationFileContent, TranslationFiles } from "../../types";
+import {
+  ProjectDetails,
+  TranslationFileContent,
+  TranslationFiles,
+} from "../../types";
 import { readFileContent } from "../../utils/readFileContent";
 import { ToolBar } from "../../components/ToolBar";
 import { DocstringPreview } from "../../components/DocstringPreview";
 import { EditView } from "../../components/EditView";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MainLayout } from "../../components/MainLayout";
 import { toTSX } from "../../utils/toTSX";
+import { Git } from "../../utils/git";
 
 interface Props {
+  project: ProjectDetails;
   files: TranslationFiles;
   content?: TranslationFileContent;
 }
 
-const SessionPage = ({ files, content }: Props) => {
+const SessionPage = ({ project, files, content }: Props) => {
   const [previewLocale, setPreviewLocale] = useState<string>("en");
   const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
   const [translation, setTranslation] = useState(null);
@@ -25,9 +31,15 @@ const SessionPage = ({ files, content }: Props) => {
     setTranslation({ ...translation, [key]: languages });
   };
 
-  const handleSave = () => {
-    // TODO: Call save
-    console.log(toTSX({ ...content, content: translation }));
+  const handleSave = async () => {
+    await fetch("/api/write-changes", {
+      method: "POST",
+      body: JSON.stringify({
+        project: project.name,
+        path: content.relativePath,
+        content: toTSX({ ...content, content: translation }),
+      }),
+    });
 
     setHasPendingChanges(false);
   };
@@ -39,7 +51,7 @@ const SessionPage = ({ files, content }: Props) => {
   }, [content]);
 
   return (
-    <MainLayout files={files}>
+    <MainLayout files={files} project={project}>
       {translation && (
         <div>
           {content.path && (
@@ -78,6 +90,7 @@ const SessionPage = ({ files, content }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { project } = context.query;
+  const git = new Git(project as string);
   const root = process.env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
   const pattern = `${root}/${project}/+(components|core|translations)/**/*.i18n.+(ts|tsx)`;
   const files: string[] = glob.sync(pattern, {});
@@ -113,6 +126,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
+      project: {
+        branch: git.branch(),
+        name: project,
+      },
       files: data,
       content: context.query.file
         ? readFileContent(

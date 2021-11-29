@@ -33,6 +33,11 @@ export interface TranslationFiles {
   pages: PageMeta[];
 }
 
+export interface ProjectDetails {
+  branch: string;
+  name: string;
+}
+
 // The following definitions are same in every project. Copy these to `types/Translation.ts`
 
 export type I18nTemplate = (args: Record<string, any>) => string | ReactNode;

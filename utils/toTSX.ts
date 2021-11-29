@@ -11,8 +11,7 @@ const SEMI = `;`;
  */
 export const toTSX = (data: TranslationFileContent): string => {
   let tsx: string[] = [
-    "/* eslint-disable react/display-name */",
-    `import { I18nTemplate, I18nTextNode, Translation } from "@/types/Translation"${SEMI}\n`,
+    `import { I18nTemplate, Translation } from "@/types/Translation"${SEMI}\n`,
   ];
 
   if (data.docstring) {

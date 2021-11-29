@@ -24,7 +24,7 @@ export const readFileContent = (
 
   return {
     path: absolutePath,
-    relativePath: path,
+    relativePath: decodeURIComponent(path),
     name,
     docstring: readDocstring(docstring),
     content: readTranslation(translations),

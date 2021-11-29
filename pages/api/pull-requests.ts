@@ -1,18 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { exec } from "child_process";
+import { Git } from "../../utils/git";
+import { readdirSync } from "fs";
 
-const submitPullRequest = (req: NextApiRequest, res: NextApiResponse) => {
-  exec("ls -la", (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-  });
+interface RequestBody {
+  project: string;
+}
+
+const api = (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === "POST") {
+    const { project }: RequestBody = JSON.parse(req.body);
+    const succeeded = submitPullRequest(project);
+    res.status(succeeded ? 200 : 400).json({});
+  } else {
+    res.status(404).json({});
+  }
 };
 
-export default submitPullRequest;
+const submitPullRequest = (project: string): boolean => {
+  const git = new Git(project);
+  git.stageAll();
+  git.commit();
+  //git.push();
+  return true;
+};
+
+export default api;

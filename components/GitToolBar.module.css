@@ -1,0 +1,15 @@
+.GitToolBar {
+    background-color: #3f4b4f;
+    padding: 2rem;
+}
+
+.GitToolBar > h3 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.Actions {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}

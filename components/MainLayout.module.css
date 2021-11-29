@@ -2,3 +2,8 @@
     display: grid;
     grid-template-columns: 1fr 5fr;
 }
+
+.SideBar {
+    display: grid;
+    grid-template-rows: 80vh 20vh;
+}
