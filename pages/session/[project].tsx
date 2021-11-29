@@ -14,6 +14,8 @@ import { MainLayout } from "../../components/MainLayout";
 import { toTSX } from "../../utils/toTSX";
 import { Git } from "../../utils/git";
 import { isAuthenticated } from "../../utils/authentication";
+import css from "./[project].module.css";
+import { LivePreview } from "../../components/LivePreview";
 
 interface Props {
   project: ProjectDetails;
@@ -54,7 +56,7 @@ const SessionPage = ({ project, files, content }: Props) => {
   return (
     <MainLayout files={files} project={project}>
       {translation && (
-        <div>
+        <div className={css.Content}>
           {content.path && (
             <ToolBar
               locales={content.locales}
@@ -66,22 +68,22 @@ const SessionPage = ({ project, files, content }: Props) => {
             />
           )}
 
-          <main>
-            <div>
+          <main className={css.Main}>
+            <div className={css.EditArea}>
               <DocstringPreview
-                docstring={translation.docstring}
+                docstring={content.docstring}
                 previewLanguage={previewLocale}
                 setPreviewUrl={() => {}}
               />
 
-              {content.path && (
-                <EditView
-                  languages={content.locales}
-                  translations={translation}
-                  onChange={handleChange}
-                />
-              )}
+              <EditView
+                languages={content.locales}
+                translations={translation}
+                onChange={handleChange}
+              />
             </div>
+
+            <LivePreview languageCode="en" previewUrl="" />
           </main>
         </div>
       )}

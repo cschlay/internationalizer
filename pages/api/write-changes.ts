@@ -8,7 +8,7 @@ import { isAuthenticated } from "../../utils/authentication";
  */
 const writeChanges = (req: NextApiRequest, res: NextApiResponse<{}>) => {
   const authenticated = isAuthenticated(req.cookies);
-  if (authenticated && req.method !== "POST") {
+  if (authenticated && req.method === "POST") {
     const { path, project, content }: RequestBody = JSON.parse(req.body);
     fs.writeFileSync(
       `${process.env.PROJECTS_DIRECTORY}/${project}/${path}`,

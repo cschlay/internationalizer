@@ -1,0 +1,13 @@
+.Content {
+    display: grid;
+    grid-template-rows: 5vh 95vh;
+}
+
+.Main {
+    display: grid;
+    grid-template-columns: 7fr 2fr;
+}
+
+.EditArea {
+    overflow-y: scroll;
+}

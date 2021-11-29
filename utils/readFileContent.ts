@@ -15,7 +15,7 @@ export const readFileContent = (
   const absolutePath = `${root}/${project}/${path}`;
 
   const content = fs.readFileSync(decodeURIComponent(absolutePath), "utf-8");
-  const translations: RegExpMatchArray = content.match(TRANSLATION_REGEX);
+  const [translation]: RegExpMatchArray = content.match(TRANSLATION_REGEX);
   const docstring: RegExpMatchArray = content.match(DOCSTRING_REGEX);
 
   const config = fs.readFileSync(
@@ -27,7 +27,7 @@ export const readFileContent = (
     relativePath: decodeURIComponent(path),
     name,
     docstring: readDocstring(docstring),
-    content: readTranslation(translations),
+    content: translation ? readTranslation(translation) : {},
     locales: JSON.parse(config.toString()).locales,
   };
 };

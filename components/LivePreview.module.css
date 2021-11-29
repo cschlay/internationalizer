@@ -1,14 +1,11 @@
 .MobileFrame {
-    position: fixed;
-    top: var(--spacing);
-    right: var(--spacing);
-
     border: 5px solid var(--color-foreground);
     border-radius: 1.5rem;
     height: 80vh;
     width: var(--preview-size);
 
     overflow: hidden;
+    margin: 1rem;
 }
 
 .MobileFrame > iframe {
