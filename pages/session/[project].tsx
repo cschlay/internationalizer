@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { MainLayout } from "../../components/MainLayout";
 import { toTSX } from "../../utils/toTSX";
 import { Git } from "../../utils/git";
+import { isAuthenticated } from "../../utils/authentication";
 
 interface Props {
   project: ProjectDetails;
@@ -89,6 +90,16 @@ const SessionPage = ({ project, files, content }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const authenticated = isAuthenticated(context.req.cookies);
+  if (!authenticated) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+      },
+    };
+  }
+
   const { project } = context.query;
   const git = new Git(project as string);
   const root = process.env.PROJECTS_DIRECTORY.replaceAll("\\", "/");

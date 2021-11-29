@@ -1,4 +1,4 @@
-import { execSync, spawnSync } from "child_process";
+import { spawnSync } from "child_process";
 import { readdirSync } from "fs";
 
 export class Git {
@@ -25,6 +25,9 @@ export class Git {
   }
 
   commit() {
+    spawnSync("yarn", ["prettier", "--write", "translations"], {
+      cwd: this.path,
+    });
     spawnSync("git", ["commit", "-m", "Internationalizer commit"], {
       cwd: this.path,
     });

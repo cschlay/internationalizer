@@ -1,13 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Git } from "../../utils/git";
-import { readdirSync } from "fs";
+import { isAuthenticated } from "../../utils/authentication";
 
 interface RequestBody {
   project: string;
 }
 
 const api = (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST") {
+  const authenticated = isAuthenticated(req.cookies);
+
+  if (authenticated && req.method === "POST") {
     const { project }: RequestBody = JSON.parse(req.body);
     const succeeded = submitPullRequest(project);
     res.status(succeeded ? 200 : 400).json({});

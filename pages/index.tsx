@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import css from "./index.module.css";
 import glob from "glob";
+import { isAuthenticated } from "../utils/authentication";
 
 interface Props {
   projects: string[];
@@ -22,6 +23,16 @@ const IndexPage = ({ projects }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const authenticated = isAuthenticated(context.req.cookies);
+  if (!authenticated) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+      },
+    };
+  }
+
   const root = process.env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
   const pattern = `${root}/*`;
   const directories: string[] = glob.sync(pattern, {});
