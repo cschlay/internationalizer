@@ -13,8 +13,18 @@ describe("Translation parse", () => {
       test: { en: "ship" },
     });
   });
-  it.todo("should handle multiple locales");
-  it.todo("should handle log strings");
+
+  it("should handle multiple locales", () => {
+    const example = `export const TestI18n: Translation = {
+      test: {
+        en: "english",
+        fi: "finnish",
+      },
+    };`;
+
+    const result = readTranslation(example);
+    expect(result).toEqual({ test: { en: "english", fi: "finnish" } });
+  });
 
   describe("React elements", () => {
     it("should handle one line fragments", () => {
@@ -35,11 +45,16 @@ describe("Translation parse", () => {
             <>
               it works {one}
             </>
-          )
-        }
+          ),
+        },
       };`;
+
       const result = readTranslation(example);
-      //console.log(result);
+      expect(result).toEqual({
+        test: {
+          en: "it works {one}",
+        },
+      });
     });
   });
 });

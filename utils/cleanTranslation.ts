@@ -14,7 +14,7 @@ export class Cleanable {
   }
 
   removeExport() {
-    this.data = this.data.replace(/export const .*: Translation = /, "");
+    this.data = this.data.replace(/export const .*: Translation = {\n?/, "");
     return this;
   }
 

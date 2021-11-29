@@ -13,9 +13,8 @@ export interface TranslationFileContent {
   docstring?: ParsedDocstring;
   content: Translation;
   locales: string[];
+  exportName: string;
 }
-
-//
 
 export interface ComponentMeta {
   path: string;

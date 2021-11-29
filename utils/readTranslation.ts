@@ -1,5 +1,6 @@
 import { Translation } from "../types";
 import { Cleanable } from "./cleanTranslation";
+import { Tokens } from "./Tokens";
 
 /**
  * Converts Translation string representation, so it will be read and converted into JavaScript object.
@@ -15,49 +16,53 @@ export const readTranslation = (translation: string): Translation => {
     .replaceReactFragments()
     .toString();
 
-  let tokens = cleanedTranslation.split(" ").filter((x) => x !== "");
+  const tokens = cleanedTranslation
+    .split(Tokens.WhiteSpace)
+    .filter((token) => token && token !== Tokens.GroupBegin);
+  return readTokens(tokens);
+};
 
-  const result = {};
+const readTokens = (tokens: string[]): Translation => {
+  const result: Translation = {};
 
-  let read = false;
-
-  //console.log(tokens);
-  let key;
-  let locale;
-  let text = [];
+  let key = "";
+  let locale = "";
+  let textValue = [];
   for (const token of tokens) {
-    if (token === "{\n" && !read) {
-      read = true;
-    } else if (token.includes("};")) {
+    if (token.includes(Tokens.Termination)) {
       return result;
-    } else if (token !== "") {
-      if (key) {
-        if (locale) {
-          text.push(token);
-          if (token.endsWith("`,\n") || token.endsWith('",\n')) {
-            const tt = text
-              .join(" ")
-              .replace("\n ", "")
-              .replace(",\n", "")
-              .replaceAll("$", "");
-            result[key][locale] = tt.slice(1, tt.length - 1).trim();
-            text = [];
-            locale = undefined;
-          }
-        } else if (token === "},\n") {
+    }
+
+    if (key) {
+      if (locale) {
+        textValue.push(token);
+        if (token.endsWith(Tokens.LocaleTerminator)) {
+          result[key][locale] = formatTextValue(textValue);
+          textValue = [];
           locale = undefined;
-          key = undefined;
-        } else if (token !== "{\n") {
-          // No locale
-          locale = token.replace(":", "");
-          result[key][locale] = "";
         }
+      } else if (token === Tokens.KeyTerminator) {
+        locale = undefined;
+        key = undefined;
       } else {
-        // No key
-        key = token.replace(":", "");
-        result[key] = {};
+        locale = token.replace(":", "");
+        result[key][locale] = {};
       }
+    } else {
+      key = token.replace(Tokens.KeyValueSeparator, "");
+      result[key] = {};
     }
   }
+
   return result;
+};
+
+const formatTextValue = (textValue: string[]): string => {
+  const text = textValue
+    .join(Tokens.WhiteSpace)
+    .replace('",\n', '"')
+    .replace("`,\n", '"')
+    .replace("\n ", "")
+    .replaceAll("$", "");
+  return text.slice(1, text.length - 1).trim();
 };

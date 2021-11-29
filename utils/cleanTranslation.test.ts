@@ -2,9 +2,9 @@ import { Cleanable } from "./cleanTranslation";
 
 describe("Translation cleaning", () => {
   it("should remove export statement", () => {
-    const data = `export const InputI18n: Translation = {}`;
+    const data = `export const InputI18n: Translation = {};`;
     const result = new Cleanable(data).removeExport().toString();
-    expect(result).toEqual("{}");
+    expect(result).toEqual("};");
   });
 
   it("should remove comments", () => {

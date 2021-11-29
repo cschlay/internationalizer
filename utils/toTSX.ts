@@ -9,7 +9,10 @@ const SEMI = `;`;
  *
  * It automatically adds ESLint exceptions, type imports, and the interface.
  */
-export const toTSX = (data: TranslationFileContent): string => {
+export const toTSX = (
+  exportName: string,
+  data: TranslationFileContent
+): string => {
   let tsx: string[] = [
     `import { I18nTemplate, Translation } from "@/types/Translation"${SEMI}\n`,
   ];
@@ -17,13 +20,13 @@ export const toTSX = (data: TranslationFileContent): string => {
   if (data.docstring) {
     tsx = tsx.concat(convertDocstring(data.docstring));
   }
-  const [objectName]: string[] = data.name.split(".");
-  tsx.push(`export const ${objectName}I18n: Translation = {`);
+
+  tsx.push(`export const ${exportName}: Translation = {`);
 
   const [translationTsx, tsxInterface] = extractContent(data.content);
   tsx.push(translationTsx);
   tsx.push("}" + SEMI + "\n");
-  tsx.push(`export interface ${objectName}I18n {`);
+  tsx.push(`export interface ${exportName} {`);
   tsx.push(tsxInterface);
   tsx.push("}");
   return tsx.join("\n");

@@ -22,6 +22,8 @@ export const readFileContent = (
     `${root}/${project}/translations/i18n.config.json`
   );
 
+  const [exportName] = translation.match(/(?<=const ).*(?=(: Translation))/g);
+
   return {
     path: absolutePath,
     relativePath: decodeURIComponent(path),
@@ -29,5 +31,6 @@ export const readFileContent = (
     docstring: readDocstring(docstring),
     content: translation ? readTranslation(translation) : {},
     locales: JSON.parse(config.toString()).locales,
+    exportName,
   };
 };
