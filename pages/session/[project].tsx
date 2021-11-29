@@ -9,7 +9,7 @@ import { readFileContent } from "../../utils/readFileContent";
 import { ToolBar } from "../../components/ToolBar";
 import { DocstringPreview } from "../../components/DocstringPreview";
 import { EditView } from "../../components/EditView";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MainLayout } from "../../components/MainLayout";
 import { toTSX } from "../../utils/toTSX";
 import { Git } from "../../utils/git";
@@ -28,13 +28,23 @@ const SessionPage = ({ project, files, content }: Props) => {
   const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
   const [translation, setTranslation] = useState(null);
 
+  const pendingChangesListener = useCallback((event: BeforeUnloadEvent) => {
+    event.returnValue = "message";
+    return "message";
+  }, []);
+
   const handleChange = (locale: string, key: string, value: string) => {
+    if (!hasPendingChanges) {
+      window.addEventListener("beforeunload", pendingChangesListener);
+    }
+
     setHasPendingChanges(true);
     const languages = { ...translation[key], [locale]: value };
     setTranslation({ ...translation, [key]: languages });
   };
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
+    console.info("Save changes!");
     await fetch("/api/write-changes", {
       method: "POST",
       body: JSON.stringify({
@@ -44,14 +54,27 @@ const SessionPage = ({ project, files, content }: Props) => {
       }),
     });
 
+    window.removeEventListener("beforeunload", pendingChangesListener);
     setHasPendingChanges(false);
-  };
+  }, [content, pendingChangesListener, project.name, translation]);
 
   useEffect(() => {
     if (content) {
       setTranslation(content.content);
     }
   }, [content]);
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "s") {
+        event.preventDefault();
+        handleSave();
+      }
+    };
+
+    window.addEventListener("keydown", listener);
+    return () => window.removeEventListener("keydown", listener);
+  }, [handleSave]);
 
   return (
     <MainLayout files={files} project={project}>
