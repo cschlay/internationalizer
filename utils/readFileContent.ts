@@ -1,6 +1,6 @@
 import fs from "fs";
 import { TranslationFileContent } from "../types";
-import { readDocstring } from "./readDocstring";
+import { parseDocstring } from "./parseDocstring";
 import { readTranslation } from "./readTranslation";
 
 const DOCSTRING_REGEX: RegExp = /\/\*\*.*\*\//s;
@@ -16,7 +16,7 @@ export const readFileContent = (
 
   const content = fs.readFileSync(decodeURIComponent(absolutePath), "utf-8");
   const [translation]: RegExpMatchArray = content.match(TRANSLATION_REGEX);
-  const docstring: RegExpMatchArray = content.match(DOCSTRING_REGEX);
+  const [docstring]: RegExpMatchArray = content.match(DOCSTRING_REGEX);
 
   const config = fs.readFileSync(
     `${root}/${project}/translations/i18n.config.json`
@@ -28,7 +28,7 @@ export const readFileContent = (
     path: absolutePath,
     relativePath: decodeURIComponent(path),
     name,
-    docstring: readDocstring(docstring),
+    docstring: parseDocstring(docstring),
     content: translation ? readTranslation(translation) : {},
     locales: JSON.parse(config.toString()).locales,
     exportName,

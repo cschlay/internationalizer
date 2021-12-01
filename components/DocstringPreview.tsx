@@ -1,11 +1,11 @@
 import { formatPreviewUrl } from "../utils/formatPreviewUrl";
-import { ParsedDocstring } from "../types";
+import { Documentation } from "../types";
 import { SyntheticEvent } from "react";
 
 import styles from "./DocstringPreview.module.css";
 
 interface Props {
-  docstring: ParsedDocstring;
+  docstring: Documentation;
   previewLanguage: string;
   setPreviewUrl: (url: string) => void;
 }
@@ -26,12 +26,12 @@ export const DocstringPreview = ({ docstring, setPreviewUrl }: Props) => {
       <p className={styles.Description}>{docstring.description.join("\n")}</p>
 
       <nav className={styles.PreviewLinks}>
-        {docstring.storybookUrls.map((url) => (
+        {docstring.stories.map((url) => (
           <button key={url} onClick={handlePreviewUrlChange} data-url={url}>
             Component Preview
           </button>
         ))}
-        {docstring.previewUrls.map((url) => (
+        {docstring.previews.map((url) => (
           <button key={url} onClick={handlePreviewUrlChange} data-url={url}>
             Page Preview
           </button>

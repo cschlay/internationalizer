@@ -14,11 +14,11 @@ const getFileContent = async (filepath: string): Promise<ResponseData> => {
 
   let previewUrl: string = "";
   if (content.docstring) {
-    const { storybookUrls, previewUrls } = content.docstring;
-    if (storybookUrls.length) {
-      previewUrl = storybookUrls[0];
+    const { stories, previews } = content.docstring;
+    if (stories.length) {
+      previewUrl = stories[0];
     } else {
-      previewUrl = previewUrls[0];
+      previewUrl = previews[0];
     }
   }
 

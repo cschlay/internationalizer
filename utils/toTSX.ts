@@ -1,5 +1,5 @@
-import { ParsedDocstring, Translation, TranslationFileContent } from "../types";
-import { DOCSTRING_PREVIEW_TAG, DOCSTRING_STORYBOOK_TAG } from "../config";
+import { Documentation, Translation, TranslationFileContent } from "../types";
+import { DOCSTRING_PREVIEW_TAG, DOCSTRING_STORYBOOK_TAG } from "../app.config";
 
 const INDENT = `    `;
 const SEMI = `;`;
@@ -69,15 +69,15 @@ const extractContent = (content: Translation): string[] => {
   return [tsx.join("\n"), tsxInterface.join("\n")];
 };
 
-const convertDocstring = (docstring: ParsedDocstring): string[] => {
+const convertDocstring = (docstring: Documentation): string[] => {
   const tsx: string[] = ["/**"];
   docstring.description.forEach((line) => {
     tsx.push(` * ${line}`);
   });
-  docstring.storybookUrls.forEach((url) =>
+  docstring.stories.forEach((url) =>
     tsx.push(` * ${DOCSTRING_STORYBOOK_TAG} ${url}`)
   );
-  docstring.previewUrls.forEach((url) =>
+  docstring.previews.forEach((url) =>
     tsx.push(` * ${DOCSTRING_PREVIEW_TAG} ${url}`)
   );
   tsx.push("*/");

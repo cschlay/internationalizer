@@ -60,8 +60,7 @@ const readTokens = (tokens: string[]): Translation => {
 const formatTextValue = (textValue: string[]): string => {
   const text = textValue
     .join(Tokens.WhiteSpace)
-    .replace('",\n', '"')
-    .replace("`,\n", '"')
+    .replace(Tokens.StringLineTermination, '"')
     .replace("\n ", "")
     .replaceAll("$", "");
   return text.slice(1, text.length - 1).trim();

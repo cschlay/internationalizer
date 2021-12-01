@@ -1,4 +1,4 @@
-import { APP_HOST, STORYBOOK_HOST } from "../config";
+import { APP_HOST, STORYBOOK_HOST } from "../app.config";
 
 /**
  * Formats the url so that they can be opened in browsers.

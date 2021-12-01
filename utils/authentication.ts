@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { AUTHENTICATION_COOKIE_NAME } from "../config";
+import { AUTHENTICATION_COOKIE_NAME } from "../app.config";
 import { NextApiRequestCookies } from "next/dist/server/api-utils";
 
 // RUN ONLY IN SERVER SIDE
