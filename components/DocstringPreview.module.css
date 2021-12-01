@@ -1,6 +1,6 @@
 .Container {
     font-family: var(--display-font);
-    margin-bottom: 2rem;
+    padding: var(--spacing);
 }
 
 .Description {
@@ -9,9 +9,8 @@
 }
 
 .PreviewLinks {
-    opacity: 0.8;
     display: flex;
-    gap: var(--text-padding);
+    gap: var(--spacing);
 }
 
 .PreviewLinks > button {

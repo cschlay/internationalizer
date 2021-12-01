@@ -97,7 +97,7 @@ const SessionPage = ({ project, files, content }: Props) => {
           <main className={css.Main}>
             <div className={css.EditArea}>
               <DocstringPreview
-                docstring={content.docstring}
+                documentation={content.docstring}
                 previewLanguage={previewLocale}
                 setPreviewUrl={() => {}}
               />
