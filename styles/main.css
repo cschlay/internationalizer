@@ -13,6 +13,8 @@
   --color-border: gray;
   --color-foreground: #171616;
   --color-accent: #ccdae0;
+  --color-focus: skyblue;
+  --color-error: pink;
 
   --preview-size: 400px;
 }
@@ -36,19 +38,6 @@ a {
 
 button {
   font-family: var(--display-font);
-}
-
-textarea {
-  font-family: var(--monospace-font);
-  font-size: 1rem;
-  line-height: 1.5;
-  width: 100%;
-}
-
-textarea:focus {
-  outline: none !important;
-  border:1px solid skyblue;
-  box-shadow: 0 0 3px skyblue;
 }
 
 #app {

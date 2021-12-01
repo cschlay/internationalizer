@@ -1,6 +1,6 @@
-import { Button } from "./Button";
-import { LanguageSelect } from "./LanguageSelect";
-import { LanguageToggle } from "./LanguageToggle";
+import { Button } from "../Button";
+import { LanguageSelect } from "../LanguageSelect";
+import { LanguageToggle } from "../LanguageToggle";
 
 import styles from "./ToolBar.module.css";
 
@@ -35,6 +35,11 @@ export const ToolBar = ({
       </div>
       <div className={styles.LanguageOptions}>
         <div className={styles.PreviewLanguageContainer}>
+          <LanguageToggle
+            locales={locales}
+            activeLanguages={activeLanguages}
+            setActiveLanguages={setActiveLanguages}
+          />
           <small>Preview</small>
           <LanguageSelect
             locales={locales}

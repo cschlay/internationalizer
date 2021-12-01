@@ -6,7 +6,7 @@ import {
   TranslationFiles,
 } from "../../types";
 import { readFileContent } from "../../utils/readFileContent";
-import { ToolBar } from "../../components/ToolBar";
+import { ToolBar } from "../../components/ToolBar/ToolBar";
 import { DocstringPreview } from "../../components/DocstringPreview";
 import { EditView } from "../../components/EditView";
 import { useCallback, useEffect, useState } from "react";
@@ -24,6 +24,7 @@ interface Props {
 }
 
 const SessionPage = ({ project, files, content }: Props) => {
+  const [activeLocales, setActiveLocales] = useState(["en"]);
   const [previewLocale, setPreviewLocale] = useState<string>("en");
   const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
   const [translation, setTranslation] = useState(null);
@@ -86,8 +87,8 @@ const SessionPage = ({ project, files, content }: Props) => {
           {content.path && (
             <ToolBar
               locales={content.locales}
-              activeLanguages={content.locales}
-              setActiveLanguages={() => {}}
+              activeLanguages={activeLocales}
+              setActiveLanguages={setActiveLocales}
               setPreviewLanguage={setPreviewLocale}
               hasPendingChanges={hasPendingChanges}
               onSave={handleSave}
@@ -103,7 +104,7 @@ const SessionPage = ({ project, files, content }: Props) => {
               />
 
               <EditView
-                languages={content.locales}
+                locales={activeLocales}
                 translations={translation}
                 onChange={handleChange}
               />

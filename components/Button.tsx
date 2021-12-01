@@ -1,15 +1,22 @@
-import { ReactNode, SyntheticEvent } from "react";
-import styles from "./Button.module.css";
+import { ReactNode, SyntheticEvent, useMemo } from "react";
+import css from "./Button.module.css";
+import { getClassName } from "../utils/getClassName";
 
 interface Props {
   children: ReactNode;
   onClick: (event: SyntheticEvent) => void;
-  disabled: boolean;
+  disabled?: boolean;
+  inverted?: boolean;
 }
 
-export const Button = ({ children, disabled, onClick }: Props) => {
+export const Button = ({ children, disabled, inverted, onClick }: Props) => {
+  const className = useMemo(
+    () => getClassName(css.Button, [css.Inverted, inverted]),
+    [inverted]
+  );
+
   return (
-    <button className={styles.Container} onClick={onClick} disabled={disabled}>
+    <button className={className} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

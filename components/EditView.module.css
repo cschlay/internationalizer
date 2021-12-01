@@ -12,6 +12,8 @@
     font-weight: bold;
     font-family: var(--display-font);
     margin-bottom: 1rem;
+
+    text-transform: capitalize;
 }
 
 .LanguageRow {
@@ -26,12 +28,4 @@
 .LanguageTag {
     opacity: 0.75;
     text-transform: uppercase;
-}
-
-.TextField {
-    font-family: var(--monospace-font);
-    border-color: lightgray;
-    border-radius: var(--border-radius);
-    padding: var(--text-padding);
-    margin: var(--text-padding-small);
 }

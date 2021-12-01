@@ -21,7 +21,7 @@ export const GitToolBar = ({ project }: Props) => {
       <h3>{project.name.replaceAll("-", " ")}</h3>
 
       <div className={css.Actions}>
-        <Button onClick={handlePullRequest} disabled={false}>
+        <Button onClick={handlePullRequest} inverted>
           Submit for Review
         </Button>
       </div>
