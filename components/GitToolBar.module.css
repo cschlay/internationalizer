@@ -1,9 +1,10 @@
 .GitToolBar {
     padding: 2rem;
+    text-align: center;
 }
 
 .GitToolBar > h3 {
-    text-align: center;
+    margin: 0;
     text-transform: uppercase;
 }
 

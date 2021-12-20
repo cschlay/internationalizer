@@ -19,6 +19,9 @@ export const GitToolBar = ({ project }: Props) => {
   return (
     <div className={css.GitToolBar}>
       <h3>{project.name.replaceAll("-", " ")}</h3>
+      <small>
+        <strong>Branch</strong>: {project.branch}
+      </small>
 
       <div className={css.Actions}>
         <Button onClick={handlePullRequest} inverted>

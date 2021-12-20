@@ -22,7 +22,7 @@ const submitPullRequest = (project: string): boolean => {
   const git = new Git(project);
   git.stageAll();
   git.commit();
-  //git.push();
+  git.push();
   return true;
 };
 

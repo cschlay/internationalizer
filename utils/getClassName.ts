@@ -4,7 +4,6 @@ type CssClassDefinition = string | [string, ...boolean[]];
  * Use together with useMemo.
  */
 export const getClassName = (...cssClasses: CssClassDefinition[]): string => {
-  console.log("x", cssClasses);
   return cssClasses.map(mapper).join(" ");
 };
 
