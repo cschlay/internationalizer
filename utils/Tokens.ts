@@ -3,6 +3,7 @@ export const Tokens = {
   KeyValueSeparator: ":",
   KeyTerminator: "},\n",
   LocaleTerminator: ",\n",
+  Indent: `  `,
   NewLine: "\n",
   StringLineTermination: /(["`]),\n/,
   Termination: "};",

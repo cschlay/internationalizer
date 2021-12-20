@@ -1,5 +1,5 @@
 import { TranslationFileContent } from "../types";
-import { toTSX } from "../utils/toTSX";
+import { toTSX } from "../utils/tsx/toTSX";
 
 const saveChanges = async (file: TranslationFileContent): Promise<void> => {
   const response = await fetch("/api/write-changes", {

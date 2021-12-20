@@ -1,5 +1,7 @@
-import { Documentation, Translation, TranslationFileContent } from "../types";
-import { DOCSTRING_PREVIEW_TAG, DOCSTRING_STORYBOOK_TAG } from "../app.config";
+import { Translation, TranslationFileContent } from "../../types";
+import { getTemplateArguments } from "./getTemplateArguments";
+import { writeDocstring } from "./writeDocstring";
+import { Tokens } from "../Tokens";
 
 const INDENT = `    `;
 const SEMI = `;`;
@@ -18,7 +20,7 @@ export const toTSX = (
   ];
 
   if (data.docstring) {
-    tsx = tsx.concat(convertDocstring(data.docstring));
+    tsx = tsx.concat(writeDocstring(data.docstring));
   }
 
   tsx.push(`export const ${exportName}: Translation = {`);
@@ -29,7 +31,7 @@ export const toTSX = (
   tsx.push(`export interface ${exportName} {`);
   tsx.push(tsxInterface);
   tsx.push("}");
-  return tsx.join("\n");
+  return tsx.join(Tokens.NewLine);
 };
 
 /**
@@ -44,14 +46,14 @@ const extractContent = (content: Translation): string[] => {
 
     let isTemplated: boolean = false;
     for (const [languageCode, textNode] of Object.entries(texts)) {
-      const args: string = extractTemplateArguments(textNode as string);
-      if (args) {
+      const args: string[] = getTemplateArguments(textNode);
+      if (args.length > 0) {
         // Templates are always pure functions that return JSX.
         isTemplated = true;
         tsx.push(
           INDENT +
             INDENT +
-            `${languageCode}: ({ ${args} }) => <>${textNode}</>,`
+            `${languageCode}: ({ ${args.join(", ")} }) => <>${textNode}</>,`
         );
       } else {
         // Non-templates are strings.
@@ -67,36 +69,4 @@ const extractContent = (content: Translation): string[] => {
     }
   }
   return [tsx.join("\n"), tsxInterface.join("\n")];
-};
-
-const convertDocstring = (docstring: Documentation): string[] => {
-  const tsx: string[] = ["/**"];
-  docstring.description.forEach((line) => {
-    tsx.push(` * ${line}`);
-  });
-  docstring.stories.forEach((url) =>
-    tsx.push(` * ${DOCSTRING_STORYBOOK_TAG} ${url}`)
-  );
-  docstring.previews.forEach((url) =>
-    tsx.push(` * ${DOCSTRING_PREVIEW_TAG} ${url}`)
-  );
-  tsx.push("*/");
-  return tsx;
-};
-
-/**
- * Extracts template arguments from TextNode. If it doesn't have any it will return an empty string.
- *
- * The return format doesn't contain parenthesis: "arg1, arg2, arg3"
- */
-const extractTemplateArguments = (textNode: string): string => {
-  // Matches every string wrapped in braces "{hello}".
-  const args: RegExpMatchArray = textNode.match(/{.*}/g);
-  if (args) {
-    return args
-      .map((arg) => arg.replace(/{/g, "").replace(/}/g, ""))
-      .join(", ");
-  }
-
-  return "";
 };

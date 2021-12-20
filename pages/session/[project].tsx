@@ -11,7 +11,7 @@ import { DocstringPreview } from "../../components/DocstringPreview";
 import { EditView } from "../../components/EditView";
 import { useCallback, useEffect, useState } from "react";
 import { MainLayout } from "../../components/MainLayout";
-import { toTSX } from "../../utils/toTSX";
+import { toTSX } from "../../utils/tsx/toTSX";
 import { Git } from "../../utils/git";
 import { isAuthenticated } from "../../utils/authentication";
 import css from "./[project].module.css";
