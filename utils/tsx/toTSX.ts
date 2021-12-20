@@ -3,7 +3,7 @@ import { getTemplateArguments } from "./getTemplateArguments";
 import { writeDocstring } from "./writeDocstring";
 import { Tokens } from "../Tokens";
 
-const INDENT = `    `;
+const INDENT = `  `;
 const SEMI = `;`;
 
 /**
@@ -11,21 +11,22 @@ const SEMI = `;`;
  *
  * It automatically adds ESLint exceptions, type imports, and the interface.
  */
-export const toTSX = (
-  exportName: string,
-  data: TranslationFileContent
-): string => {
+export const toTSX = ({
+  exportName,
+  content,
+  docstring,
+}: TranslationFileContent): string => {
   let tsx: string[] = [
     `import { I18nTemplate, Translation } from "@/types/Translation"${SEMI}\n`,
   ];
 
-  if (data.docstring) {
-    tsx = tsx.concat(writeDocstring(data.docstring));
+  if (docstring) {
+    tsx = tsx.concat(writeDocstring(docstring));
   }
 
   tsx.push(`export const ${exportName}: Translation = {`);
 
-  const [translationTsx, tsxInterface] = extractContent(data.content);
+  const [translationTsx, tsxInterface] = extractContent(content);
   tsx.push(translationTsx);
   tsx.push("}" + SEMI + "\n");
   tsx.push(`export interface ${exportName} {`);
@@ -68,5 +69,5 @@ const extractContent = (content: Translation): string[] => {
       tsxInterface.push(INDENT + `${key}: string` + SEMI);
     }
   }
-  return [tsx.join("\n"), tsxInterface.join("\n")];
+  return [tsx.join(Tokens.NewLine), tsxInterface.join(Tokens.NewLine)];
 };

@@ -1,6 +1,6 @@
 .Content {
     display: grid;
-    grid-template-rows: 5vh 95vh;
+    grid-template-rows: 6vh 94vh;
 }
 
 .Main {

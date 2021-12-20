@@ -51,7 +51,7 @@ const SessionPage = ({ project, files, content }: Props) => {
       body: JSON.stringify({
         project: project.name,
         path: content.relativePath,
-        content: toTSX(content.exportName, {
+        content: toTSX({
           ...content,
           content: translation,
         }),
