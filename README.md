@@ -22,6 +22,16 @@ yarn dev
 
 Open the following link in Chrome [http://localhost:3001](http://localhost:3001).
 
+## Translation Project Setup
+
+Add file `translations/i18n.config.json` and put the locales you want to translate into
+
+```json
+{
+  "locales": ["en", "fi"]
+}
+```
+
 ## Developer Instructions
 
 In project, modify the `tsconfig.json` to contain the following lines:
