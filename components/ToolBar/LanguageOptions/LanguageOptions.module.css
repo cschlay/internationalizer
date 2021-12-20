@@ -1,0 +1,6 @@
+.LanguageOptions {
+    color: var(--color-background);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+}

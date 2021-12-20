@@ -1,4 +1,4 @@
-import { LOCALSTORAGE_KEY_LANGUAGES } from "../app.config";
+import { LOCALSTORAGE_KEY_LANGUAGES } from "../../../../app.config";
 import { SyntheticEvent } from "react";
 
 import styles from "./LanguageToggle.module.css";
