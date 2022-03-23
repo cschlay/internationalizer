@@ -45,8 +45,8 @@ const readTokens = (tokens: string[]): Translation => {
         locale = undefined;
         key = undefined;
       } else {
-        locale = token.replace(":", "");
-        result[key][locale] = {};
+        locale = token.replace(Tokens.KeyValueSeparator, "");
+        result[key][locale] = "";
       }
     } else {
       key = token.replace(Tokens.KeyValueSeparator, "");

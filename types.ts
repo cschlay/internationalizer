@@ -16,6 +16,12 @@ export interface TranslationFileContent {
   exportName: string;
 }
 
+export interface User {
+  username: string;
+  password: string;
+  token?: string;
+}
+
 export interface ComponentMeta {
   path: string;
   name: string;

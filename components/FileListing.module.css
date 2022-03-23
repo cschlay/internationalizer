@@ -1,5 +1,5 @@
 .Container {
-    overflow: scroll;
+    overflow-y: scroll;
     padding: 0 var(--spacing);
     background-color: #ebeeef;
 }

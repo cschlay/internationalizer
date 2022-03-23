@@ -28,6 +28,7 @@ const SessionPage = ({ project, files, content }: Props) => {
   const [previewLocale, setPreviewLocale] = useState<string>("en");
   const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
   const [translation, setTranslation] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const pendingChangesListener = useCallback((event: BeforeUnloadEvent) => {
     event.returnValue = "message";
@@ -96,11 +97,11 @@ const SessionPage = ({ project, files, content }: Props) => {
           )}
 
           <main className={css.Main}>
-            <div className={css.EditArea}>
+            <div className={`${css.EditArea} scrollbar`}>
               <DocstringPreview
                 documentation={content.docstring}
                 previewLanguage={previewLocale}
-                setPreviewUrl={() => {}}
+                setPreviewUrl={setPreviewUrl}
               />
 
               <EditView
@@ -110,7 +111,7 @@ const SessionPage = ({ project, files, content }: Props) => {
               />
             </div>
 
-            <LivePreview languageCode="en" previewUrl="" />
+            <LivePreview languageCode="en" previewUrl={previewUrl} />
           </main>
         </div>
       )}

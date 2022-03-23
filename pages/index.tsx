@@ -10,7 +10,7 @@ interface Props {
 const IndexPage = ({ projects }: Props) => {
   return (
     <div className={css.Container}>
-      <h1>Open a Project</h1>
+      <h1>Select a Project</h1>
       <ul>
         {projects.map((project) => (
           <li key={project}>

@@ -175,6 +175,4 @@ describe("Conversion to TSX", () => {
       ].join("\n")
     );
   });
-
-  it.todo("should escape special characters");
 });

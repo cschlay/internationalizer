@@ -1,0 +1,7 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    // This needs to be different as Next.js uses "preserve"
+    "jsx": "react-jsx"
+  },
+}
