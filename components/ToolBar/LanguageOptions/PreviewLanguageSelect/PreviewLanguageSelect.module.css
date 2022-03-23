@@ -6,6 +6,11 @@
     padding: var(--text-padding);
 }
 
+.Container:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
 .Container > option {
     color: var(--color-foreground);
     padding: var(--text-padding);

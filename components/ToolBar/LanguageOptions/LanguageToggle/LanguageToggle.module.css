@@ -16,3 +16,8 @@
     border: 2px solid var(--color-active-on-fg);
     color: var(--color-active-on-fg);
 }
+
+.Container > button:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}

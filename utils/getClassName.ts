@@ -1,22 +1,15 @@
-type CssClassDefinition = string | [string, ...boolean[]];
+type CssClassDefinition = string | unknown;
 
 /**
- * Use together with useMemo.
+ * Returns a simple string of class. You can use it as getClassName("cls", condition && "cls-1") for conditional classes.
  */
 export const getClassName = (...cssClasses: CssClassDefinition[]): string => {
-  return cssClasses.map(mapper).join(" ");
+  return cssClasses
+    .map(mapper)
+    .filter((x) => x)
+    .join(" ");
 };
 
 const mapper = (cssClass: CssClassDefinition): string | undefined => {
-  if (typeof cssClass === "string") {
-    return cssClass;
-  }
-
-  const [className, ...conditions] = cssClass;
-
-  if (conditions.includes(true)) {
-    return className;
-  }
-
-  return undefined;
+  return typeof cssClass === "string" ? cssClass : undefined;
 };

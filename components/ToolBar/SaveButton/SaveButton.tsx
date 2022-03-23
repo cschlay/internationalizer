@@ -1,5 +1,5 @@
-import css from "./SaveButton.module.css";
 import { Button } from "../../Button";
+import css from "./SaveButton.module.css";
 
 interface Props {
   hasPendingChanges: boolean;
