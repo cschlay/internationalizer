@@ -1,5 +1,5 @@
 import { Documentation } from "../../types";
-import { PreviewButton } from "./PreviewButton";
+import { PreviewButton } from "./PreviewButton/PreviewButton";
 import { SyntheticEvent } from "react";
 import css from "./DocStringPreview.module.css";
 

@@ -5,7 +5,7 @@
 
 .GitToolBar > h3 {
     margin: 0;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .Actions {

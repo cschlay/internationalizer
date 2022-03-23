@@ -1,17 +1,17 @@
-.DocStringPreview {
+.LoginPage {
     display: grid;
     gap: 1rem;
     max-width: 30rem;
     margin: 10rem auto;
 }
 
-.DocStringPreview > label {
+.LoginPage > label {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.DocStringPreview > label > input {
+.LoginPage > label > input {
     font-size: 1rem;
     padding: 0.5rem;
 }

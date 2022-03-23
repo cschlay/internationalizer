@@ -1,13 +1,13 @@
-.DocStringPreview {
+.IndexPage {
     max-width: 60vw;
     margin: 10vh auto;
 }
 
-.DocStringPreview > h1 {
+.IndexPage > h1 {
     text-align: center;
 }
 
-.DocStringPreview > ul {
+.IndexPage > ul {
     list-style: none;
     margin: 0 auto;
     padding: 0;
@@ -15,13 +15,13 @@
     width: fit-content;
 }
 
-.DocStringPreview > ul > li {
+.IndexPage > ul > li {
     border: 1px solid gray;
     padding: 0.5rem;
     margin: 0.5rem;
 }
 
-.DocStringPreview > ul > li:hover {
+.IndexPage > ul > li:hover {
     background-color: lightgrey;
     cursor: pointer;
 }

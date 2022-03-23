@@ -10,7 +10,7 @@ export interface TranslationFileContent {
   path: string;
   relativePath: string;
   name: string;
-  docstring?: Documentation;
+  docstring: Documentation;
   content: Translation;
   locales: string[];
   exportName: string;

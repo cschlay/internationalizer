@@ -1,6 +1,6 @@
 .MobileFrame {
     border: 5px solid var(--color-foreground);
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     height: 80vh;
     width: var(--preview-size);
 

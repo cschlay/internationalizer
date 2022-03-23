@@ -1,6 +1,6 @@
 import { ReactNode, SyntheticEvent } from "react";
 import css from "./Button.module.css";
-import { getClassName } from "../utils/getClassName";
+import { getClassName } from "../../../utils/getClassName";
 
 interface Props {
   children: ReactNode;

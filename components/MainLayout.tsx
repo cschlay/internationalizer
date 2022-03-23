@@ -1,9 +1,9 @@
-import css from "./MainLayout.module.css";
-import Head from "next/head";
-import { FileListing } from "./FileListing";
 import { ProjectDetails, TranslationFiles } from "../types";
+import { FileMenu } from "./FileMenu/FileMenu";
+import { GitTools } from "./GitTools/GitTools";
+import Head from "next/head";
 import { ReactNode } from "react";
-import { GitToolBar } from "./GitToolBar";
+import css from "./MainLayout.module.css";
 
 interface Props {
   children: ReactNode;
@@ -15,11 +15,11 @@ export const MainLayout = ({ children, files, project }: Props) => {
   return (
     <div className={css.MainLayout}>
       <Head>
-        <title>Internationalizer</title>
+        <title>Internationalizer - {project.name}</title>
       </Head>
       <div className={css.SideBar}>
-        <FileListing data={files} />
-        <GitToolBar project={project} />
+        <FileMenu data={files} />
+        <GitTools project={project} />
       </div>
 
       {children}

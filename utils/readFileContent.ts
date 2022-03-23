@@ -1,10 +1,10 @@
-import fs from "fs";
 import { Documentation, TranslationFileContent } from "../types";
+import fs from "fs";
 import { parseDocstring } from "./parseDocstring";
 import { readTranslation } from "./readTranslation";
 
-const DOCSTRING_REGEX: RegExp = /\/\*\*.*\*\//s;
-const TRANSLATION_REGEX: RegExp = /export const .*: Translation [^;]*;/gs;
+const DOCSTRING_REGEX = /\/\*\*.*\*\//s;
+const TRANSLATION_REGEX = /export const .*: Translation [^;]*;/gs;
 
 export const readFileContent = (
   root: string,
@@ -13,6 +13,7 @@ export const readFileContent = (
   name: string
 ): TranslationFileContent => {
   const absolutePath = `${root}/${project}/${path}`;
+  console.log(absolutePath);
 
   const content = fs.readFileSync(decodeURIComponent(absolutePath), "utf-8");
   const [translation]: RegExpMatchArray = content.match(TRANSLATION_REGEX);

@@ -1,4 +1,4 @@
-.TranslationField {
+.EditField {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -29,5 +29,5 @@
 }
 
 .ErrorMessage {
-    color: red;
+    color: var(--color-error);
 }

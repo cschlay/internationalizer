@@ -1,21 +1,25 @@
-import glob from "glob";
-import { GetServerSideProps } from "next";
 import {
   ProjectDetails,
+  Translation,
   TranslationFileContent,
   TranslationFiles,
 } from "../../types";
-import { readFileContent } from "../../utils/readFileContent";
-import { ToolBar } from "../../components/ToolBar/ToolBar";
-import { DocStringPreview } from "../../components/DocString/DocStringPreview";
-import { EditView } from "../../components/EditView";
 import { useCallback, useEffect, useState } from "react";
-import { MainLayout } from "../../components/MainLayout";
-import { toTSX } from "../../utils/tsx/toTSX";
+import { DocStringPreview } from "../../components/DocString/DocStringPreview";
+import { EditView } from "../../components/EditView/EditView";
+import { GetServerSideProps } from "next";
 import { Git } from "../../utils/git";
-import { isAuthenticated } from "../../utils/authentication";
+import { LivePreview } from "../../components/LivePreview/LivePreview";
+import { MainLayout } from "../../components/MainLayout";
+import { ToolBar } from "../../components/ToolBar/ToolBar";
 import css from "./[project].module.css";
-import { LivePreview } from "../../components/LivePreview";
+import { env } from "../../utils/env";
+import glob from "glob";
+import { isAuthenticated } from "../../utils/authentication";
+import { readFileContent } from "../../utils/readFileContent";
+import { toTSX } from "../../utils/tsx/toTSX";
+import { useCtrlSaveEffect } from "../../hooks/useCtrlSaveEffect";
+import { usePendingChanges } from "../../hooks/usePendingChanges";
 
 interface Props {
   project: ProjectDetails;
@@ -24,29 +28,24 @@ interface Props {
 }
 
 const SessionPage = ({ project, files, content }: Props) => {
-  const [activeLocales, setActiveLocales] = useState(["en"]);
+  const { hasPendingChanges, setHasPendingChanges } = usePendingChanges();
+  const [editLocales, setEditLocales] = useState<string[]>(["en"]);
+  const [preview, setPreview] = useState("");
   const [previewLocale, setPreviewLocale] = useState<string>("en");
-  const [hasPendingChanges, setHasPendingChanges] = useState<boolean>(false);
-  const [translation, setTranslation] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
-
-  const pendingChangesListener = useCallback((event: BeforeUnloadEvent) => {
-    event.returnValue = "message";
-    return "message";
-  }, []);
+  const [translation, setTranslation] = useState<Translation>({});
 
   const handleChange = (locale: string, key: string, value: string) => {
-    if (!hasPendingChanges) {
-      window.addEventListener("beforeunload", pendingChangesListener);
-    }
-
     setHasPendingChanges(true);
     const languages = { ...translation[key], [locale]: value };
     setTranslation({ ...translation, [key]: languages });
   };
 
   const handleSave = useCallback(async () => {
-    console.info("Save changes!");
+    if (!content) {
+      console.error("Content is not defined!");
+      return;
+    }
+
     await fetch("/api/write-changes", {
       method: "POST",
       body: JSON.stringify({
@@ -59,9 +58,8 @@ const SessionPage = ({ project, files, content }: Props) => {
       }),
     });
 
-    window.removeEventListener("beforeunload", pendingChangesListener);
     setHasPendingChanges(false);
-  }, [content, pendingChangesListener, project.name, translation]);
+  }, [content, project.name, translation]);
 
   useEffect(() => {
     if (content) {
@@ -69,52 +67,49 @@ const SessionPage = ({ project, files, content }: Props) => {
     }
   }, [content]);
 
-  useEffect(() => {
-    const listener = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "s") {
-        event.preventDefault();
-        handleSave();
-      }
-    };
+  useCtrlSaveEffect(handleSave);
 
-    window.addEventListener("keydown", listener);
-    return () => window.removeEventListener("keydown", listener);
-  }, [handleSave]);
+  if (!content) {
+    return (
+      <MainLayout files={files} project={project}>
+        <p style={{ margin: "10rem auto" }}>
+          Select a translation file to start!
+        </p>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout files={files} project={project}>
-      {translation && (
-        <div className={css.Content}>
-          {content.path && (
-            <ToolBar
-              locales={content.locales}
-              activeLanguages={activeLocales}
-              setActiveLanguages={setActiveLocales}
-              setPreviewLanguage={setPreviewLocale}
-              hasPendingChanges={hasPendingChanges}
-              onSave={handleSave}
+      <div className={css.Content}>
+        {content.path && (
+          <ToolBar
+            locales={content.locales}
+            activeLanguages={editLocales}
+            setActiveLanguages={setEditLocales}
+            setPreviewLanguage={setPreviewLocale}
+            hasPendingChanges={hasPendingChanges}
+            onSave={handleSave}
+          />
+        )}
+
+        <main className={css.Main}>
+          <div className={`${css.EditArea} scrollbar`}>
+            <DocStringPreview
+              documentation={content.docstring}
+              setPreviewPath={setPreview}
             />
-          )}
 
-          <main className={css.Main}>
-            <div className={`${css.EditArea} scrollbar`}>
-              <DocStringPreview
-                documentation={content.docstring}
-                previewLanguage={previewLocale}
-                setPreviewPath={setPreviewUrl}
-              />
+            <EditView
+              locales={editLocales}
+              translations={translation}
+              onChange={handleChange}
+            />
+          </div>
 
-              <EditView
-                locales={activeLocales}
-                translations={translation}
-                onChange={handleChange}
-              />
-            </div>
-
-            <LivePreview languageCode="en" previewUrl={previewUrl} />
-          </main>
-        </div>
-      )}
+          <LivePreview locale={previewLocale} previewPath={preview} />
+        </main>
+      </div>
     </MainLayout>
   );
 };
@@ -132,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const { project } = context.query;
   const git = new Git(project as string);
-  const root = process.env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
+  const root = env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
   const pattern = `${root}/${project}/+(components|core|translations)/**/*.i18n.+(ts|tsx)`;
   const files: string[] = glob.sync(pattern, {});
 
@@ -144,6 +139,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const fileName = parts[parts.length - 1];
 
+    // TODO: Move these files
     if (!data[category]) {
       data[category] = [];
     }

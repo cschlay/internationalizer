@@ -1,12 +1,12 @@
-import css from "./GitToolBar.module.css";
-import { ProjectDetails } from "../types";
-import { Button } from "./Button";
+import { Button } from "../atoms/Button/Button";
+import { ProjectDetails } from "../../types";
+import css from "./GitTools.module.css";
 
 interface Props {
   project: ProjectDetails;
 }
 
-export const GitToolBar = ({ project }: Props) => {
+export const GitTools = ({ project }: Props) => {
   const handlePullRequest = async () => {
     await fetch("/api/pull-requests", {
       method: "POST",

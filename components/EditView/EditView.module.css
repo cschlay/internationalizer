@@ -12,14 +12,14 @@
     text-transform: capitalize;
 }
 
-.Record {
+.FieldValue {
     display: flex;
     gap: var(--spacing);
     align-items: center;
     margin: var(--text-padding-small) 0;
+    width: 100%;
 }
 
 .Locale {
     font-family: var(--font-mono);
-    opacity: 0.75;
 }

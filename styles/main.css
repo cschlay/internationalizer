@@ -12,10 +12,11 @@
   --color-background: whitesmoke;
   --color-border: gray;
   --color-foreground: #171616;
+  --color-active-on-bg: #8dd78d;
   --color-active-on-fg: #8dd78d;
   --color-accent: #ccdae0;
   --color-focus: #77b967;
-  --color-error: pink;
+  --color-error: #fa2449;
   --color-link: #3490cc;
 
   --preview-size: 400px;

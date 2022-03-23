@@ -1,6 +1,5 @@
-import css from "./TranslationField.module.css";
-import styles from "./EditView.module.css";
 import { ChangeEvent } from "react";
+import css from "./EditField.module.css";
 
 interface Props {
   recordKey: string;
@@ -9,14 +8,12 @@ interface Props {
   value: string;
 }
 
-export const TranslationField = ({
-  recordKey,
-  locale,
-  onChange,
-  value,
-}: Props) => {
+/**
+ * The text field for editing translation strings.
+ */
+export const EditField = ({ recordKey, locale, onChange, value }: Props) => {
   return (
-    <div className={css.TranslationField}>
+    <div className={css.EditField}>
       <textarea
         className={css.TextArea}
         data-key={recordKey}

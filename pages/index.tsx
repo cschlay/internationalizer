@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import css from "./index.module.css";
+import { env } from "../utils/env";
 import glob from "glob";
 import { isAuthenticated } from "../utils/authentication";
 
@@ -9,7 +10,7 @@ interface Props {
 
 const IndexPage = ({ projects }: Props) => {
   return (
-    <div className={css.Container}>
+    <div className={css.IndexPage}>
       <h1>Select a Project</h1>
       <ul>
         {projects.map((project) => (
@@ -33,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const root = process.env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
+  const root = env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
   const pattern = `${root}/*`;
   const directories: string[] = glob.sync(pattern, {});
   const projects = directories.map((directory) =>

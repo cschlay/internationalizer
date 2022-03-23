@@ -1,7 +1,7 @@
+import { EditField } from "./EditField/EditField";
 import { SyntheticEvent } from "react";
-import { Translation } from "../types";
-import { TranslationField } from "./TranslationField";
-import { addSpacesBetween } from "../utils/addSpacesBetween";
+import { Translation } from "../../types";
+import { addSpacesBetween } from "../../utils/addSpacesBetween";
 import css from "./EditView.module.css";
 
 interface Props {
@@ -12,8 +12,9 @@ interface Props {
 
 export const EditView = ({ locales, translations, onChange }: Props) => {
   const handleChange = (event: SyntheticEvent<HTMLTextAreaElement>) => {
-    const { locale, key, value } = event.currentTarget.dataset;
-    if (locale && key && value) {
+    const { value } = event.currentTarget;
+    const { locale, key } = event.currentTarget.dataset;
+    if (locale && key) {
       onChange(locale, key, value);
     } else {
       console.error(
@@ -37,9 +38,9 @@ export const EditView = ({ locales, translations, onChange }: Props) => {
         <div key={fieldName} className={css.Background}>
           <h3 className={css.FieldName}>{addSpacesBetween(fieldName)}</h3>
           {locales.map((locale) => (
-            <div key={`${fieldName}-${locale}`} className={css.Record}>
+            <div key={`${fieldName}-${locale}`} className={css.FieldValue}>
               <small className={css.Locale}>{locale}</small>
-              <TranslationField
+              <EditField
                 recordKey={fieldName}
                 locale={locale}
                 onChange={handleChange}

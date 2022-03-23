@@ -1,25 +1,25 @@
-import { ComponentMeta, PageMeta } from "../types";
+import { ComponentMeta, PageMeta } from "../../../types";
 import { SyntheticEvent } from "react";
-import css from "./ListCategory.module.css";
+import css from "./FileList.module.css";
 import { useRouter } from "next/router";
 
-interface ListingProps {
+interface Props {
   data: Array<ComponentMeta | PageMeta>;
-  onOpen: (event: SyntheticEvent<HTMLLIElement>) => void;
+  onSelect: (event: SyntheticEvent<HTMLLIElement>) => void;
 }
 
-export const ListCategory = ({ data, onOpen }: ListingProps) => {
+export const FileList = ({ data, onSelect }: Props) => {
   const router = useRouter();
 
   return (
-    <ul className={css.ListCategory} tabIndex={0}>
+    <ul className={css.FileList}>
       {data.map((file) => (
         <li
           key={file.path}
           data-active={router.query.name === file.name}
           data-name={file.name}
           data-path={file.path}
-          onClick={onOpen}
+          onClick={onSelect}
         >
           {file.name}
         </li>

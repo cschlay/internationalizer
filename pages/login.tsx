@@ -1,9 +1,9 @@
-import css from "./login.module.css";
 import { ChangeEvent, useState } from "react";
-import { useRouter } from "next/router";
+import { Button } from "../components/atoms/Button/Button";
 import { GetServerSideProps } from "next";
 import { User } from "../types";
-import { Button } from "../components/Button";
+import css from "./login.module.css";
+import { useRouter } from "next/router";
 
 interface Props {
   user: User;
@@ -25,7 +25,7 @@ const LoginPage = ({ user }: Props) => {
   };
 
   return (
-    <div className={css.Container}>
+    <div className={css.LoginPage}>
       <h1>Internationalization Tool</h1>
       <label>
         Username
