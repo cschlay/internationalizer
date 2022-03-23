@@ -16,7 +16,7 @@ export const PreviewLanguageSelect = ({
 
   return (
     <select
-      className={`${css.Container} focus kb-focus`}
+      className={`${css.PreviewLanguageSelect} focus kb-focus`}
       onChange={handleChange}
     >
       {locales.map((lang) => (

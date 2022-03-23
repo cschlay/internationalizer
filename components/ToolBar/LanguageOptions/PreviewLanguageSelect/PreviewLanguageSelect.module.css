@@ -1,4 +1,4 @@
-.Container {
+.PreviewLanguageSelect {
     background: none;
     border-radius: var(--border-radius);
     color: var(--color-background);
@@ -6,12 +6,12 @@
     padding: var(--text-padding);
 }
 
-.Container:hover {
+.PreviewLanguageSelect:hover {
     cursor: pointer;
     filter: brightness(1.2);
 }
 
-.Container > option {
+.PreviewLanguageSelect > option {
     color: var(--color-foreground);
     padding: var(--text-padding);
 }

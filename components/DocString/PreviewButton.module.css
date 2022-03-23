@@ -1,0 +1,14 @@
+.PreviewButton {
+    background: none;
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--color-link);
+    padding: 0.25rem 0.5rem;
+}
+
+.PreviewButton:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}

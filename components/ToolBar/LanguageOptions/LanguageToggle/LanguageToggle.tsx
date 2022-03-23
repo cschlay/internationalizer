@@ -38,7 +38,7 @@ export const LanguageToggle = ({
   }, [setActiveLocales]);
 
   return (
-    <div className={css.Container}>
+    <div className={css.LanguageToggle}>
       {locales.map((locale: string) => (
         <button
           key={locale}

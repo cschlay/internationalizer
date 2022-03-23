@@ -1,9 +1,9 @@
-.Container {
+.LanguageToggle {
     display: flex;
     gap: var(--text-padding);
 }
 
-.Container > button {
+.LanguageToggle > button {
     background: none;
     border: none;
     border-radius: var(--border-radius);
@@ -12,12 +12,12 @@
     text-transform: uppercase;
 }
 
-.Container > button[data-active="true"] {
+.LanguageToggle > button[data-active="true"] {
     border: 2px solid var(--color-active-on-fg);
     color: var(--color-active-on-fg);
 }
 
-.Container > button:hover {
+.LanguageToggle > button:hover {
     cursor: pointer;
     filter: brightness(1.2);
 }

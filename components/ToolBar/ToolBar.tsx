@@ -20,7 +20,7 @@ export const ToolBar = ({
   setPreviewLanguage,
 }: Props) => {
   return (
-    <div className={css.Container}>
+    <div className={css.ToolBar}>
       <SaveButton hasPendingChanges={hasPendingChanges} onSave={onSave} />
       <LanguageOptions
         activeLanguages={activeLanguages}

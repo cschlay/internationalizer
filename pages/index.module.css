@@ -1,13 +1,13 @@
-.Container {
+.DocStringPreview {
     max-width: 60vw;
     margin: 10vh auto;
 }
 
-.Container > h1 {
+.DocStringPreview > h1 {
     text-align: center;
 }
 
-.Container > ul {
+.DocStringPreview > ul {
     list-style: none;
     margin: 0 auto;
     padding: 0;
@@ -15,13 +15,13 @@
     width: fit-content;
 }
 
-.Container > ul > li {
+.DocStringPreview > ul > li {
     border: 1px solid gray;
     padding: 0.5rem;
     margin: 0.5rem;
 }
 
-.Container > ul > li:hover {
+.DocStringPreview > ul > li:hover {
     background-color: lightgrey;
     cursor: pointer;
 }

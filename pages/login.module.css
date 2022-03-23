@@ -1,17 +1,17 @@
-.Container {
+.DocStringPreview {
     display: grid;
     gap: 1rem;
     max-width: 30rem;
     margin: 10rem auto;
 }
 
-.Container > label {
+.DocStringPreview > label {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.Container > label > input {
+.DocStringPreview > label > input {
     font-size: 1rem;
     padding: 0.5rem;
 }

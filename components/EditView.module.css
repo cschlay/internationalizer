@@ -1,31 +1,25 @@
-.Card {
+.Background {
     background-color: white;
     border-radius: var(--border-radius);
+    box-shadow: 2px 2px 5px 1px lightgray;
     padding: var(--spacing);
     margin: 2rem 1rem;
-
-    box-shadow: 2px 2px 5px 1px lightgray;
 }
 
-.Key {
-    font-size: 1.25rem;
-    font-weight: bold;
-    font-family: var(--display-font);
+.FieldName {
+    margin-top: 0;
     margin-bottom: 1rem;
-
     text-transform: capitalize;
 }
 
-.LanguageRow {
-    font-family: var(--monospace-font);
-
+.Record {
     display: flex;
     gap: var(--spacing);
     align-items: center;
     margin: var(--text-padding-small) 0;
 }
 
-.LanguageTag {
+.Locale {
+    font-family: var(--font-mono);
     opacity: 0.75;
-    text-transform: uppercase;
 }

@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch&family=Cutive+Mono&family=Nunito:ital,wght@0,300;1,300&display=swap');
 
 :root {
-  --display-font: 'Nunito', sans-serif;
-  --monospace-font: 'Cutive Mono', monospace;;
+  --font-display: 'Nunito', sans-serif;
+  --font-header: 'Cabin Sketch', cursive;
+  --font-mono: 'Cutive Mono', monospace;
 
   --border-radius: 0.25rem;
   --spacing: 1rem;
@@ -16,6 +16,7 @@
   --color-accent: #ccdae0;
   --color-focus: #77b967;
   --color-error: pink;
+  --color-link: #3490cc;
 
   --preview-size: 400px;
 }
@@ -29,7 +30,7 @@ body {
   background-color: var(--color-background);
   padding: 0;
   margin: 0;
-  font-family: var(--display-font);
+  font-family: var(--font-display);
 }
 
 a {
@@ -38,7 +39,11 @@ a {
 }
 
 button {
-  font-family: var(--display-font);
+  font-family: var(--font-display);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-header);
 }
 
 .kb-focus:focus-visible {
@@ -51,11 +56,11 @@ button {
 }
 
 .scrollbar::-webkit-scrollbar-track {
-  background-color: #e0dee0;
+  background-color: #e1e1e1;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background-color: #7f938e;
+  background-color: #a7a8a8;
 }
 
 #app {

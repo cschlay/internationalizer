@@ -1,8 +1,8 @@
 import { SyntheticEvent } from "react";
 import { Translation } from "../types";
-
-import styles from "./EditView.module.css";
 import { TranslationField } from "./TranslationField";
+import { addSpacesBetween } from "../utils/addSpacesBetween";
+import css from "./EditView.module.css";
 
 interface Props {
   locales: string[];
@@ -12,11 +12,14 @@ interface Props {
 
 export const EditView = ({ locales, translations, onChange }: Props) => {
   const handleChange = (event: SyntheticEvent<HTMLTextAreaElement>) => {
-    onChange(
-      event.currentTarget.dataset.locale,
-      event.currentTarget.dataset.key,
-      event.currentTarget.value
-    );
+    const { locale, key, value } = event.currentTarget.dataset;
+    if (locale && key && value) {
+      onChange(locale, key, value);
+    } else {
+      console.error(
+        `Translation is malformed: locale=${locale}, key=${key}, value=${value}!`
+      );
+    }
   };
 
   if (Object.keys(translations).length === 0) {
@@ -30,18 +33,17 @@ export const EditView = ({ locales, translations, onChange }: Props) => {
 
   return (
     <>
-      {Object.entries(translations).map(([key, texts]) => (
-        <div key={key} className={styles.Card}>
-          <div className={styles.Key}>{key.replace(/([A-Z])/g, " $1")}</div>
-          {locales.map((lang) => (
-            <div key={`${key}-${lang}`} className={styles.LanguageRow}>
-              <small className={styles.LanguageTag}>{lang}</small>
-
+      {Object.entries(translations).map(([fieldName, texts]) => (
+        <div key={fieldName} className={css.Background}>
+          <h3 className={css.FieldName}>{addSpacesBetween(fieldName)}</h3>
+          {locales.map((locale) => (
+            <div key={`${fieldName}-${locale}`} className={css.Record}>
+              <small className={css.Locale}>{locale}</small>
               <TranslationField
-                recordKey={key}
-                locale={lang}
+                recordKey={fieldName}
+                locale={locale}
                 onChange={handleChange}
-                value={texts[lang]}
+                value={texts[locale]}
               />
             </div>
           ))}

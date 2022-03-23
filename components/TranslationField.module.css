@@ -5,7 +5,7 @@
 }
 
 .TextArea {
-    font-family: var(--monospace-font);
+    font-family: var(--font-mono);
     border: 1px solid lightgray;
     border-radius: var(--border-radius);
     padding: var(--text-padding);

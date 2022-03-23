@@ -7,7 +7,7 @@ import {
 } from "../../types";
 import { readFileContent } from "../../utils/readFileContent";
 import { ToolBar } from "../../components/ToolBar/ToolBar";
-import { DocstringPreview } from "../../components/DocstringPreview";
+import { DocStringPreview } from "../../components/DocString/DocStringPreview";
 import { EditView } from "../../components/EditView";
 import { useCallback, useEffect, useState } from "react";
 import { MainLayout } from "../../components/MainLayout";
@@ -98,10 +98,10 @@ const SessionPage = ({ project, files, content }: Props) => {
 
           <main className={css.Main}>
             <div className={`${css.EditArea} scrollbar`}>
-              <DocstringPreview
+              <DocStringPreview
                 documentation={content.docstring}
                 previewLanguage={previewLocale}
-                setPreviewUrl={setPreviewUrl}
+                setPreviewPath={setPreviewUrl}
               />
 
               <EditView

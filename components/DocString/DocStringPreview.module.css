@@ -1,0 +1,13 @@
+.DocStringPreview {
+    font-family: var(--font-display);
+    padding: var(--spacing);
+}
+
+.Description {
+    white-space: pre-wrap;
+}
+
+.PreviewLinks {
+    display: flex;
+    gap: 2rem;
+}

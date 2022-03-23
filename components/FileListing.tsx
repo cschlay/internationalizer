@@ -23,7 +23,7 @@ export const FileListing = ({ data }: Props) => {
   };
 
   return (
-    <div className={`${styles.Container} scrollbar`}>
+    <div className={`${styles.FileList} scrollbar`}>
       <h2>Components</h2>
       <ListCategory data={data.components} onOpen={handleOpen} />
 
