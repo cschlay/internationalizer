@@ -1,11 +1,12 @@
-import { spawnSync } from "child_process";
+import { env } from "./env";
 import { readdirSync } from "fs";
+import { spawnSync } from "child_process";
 
 export class Git {
   private readonly path;
 
   constructor(project: string) {
-    const projects: string[] = readdirSync(process.env.PROJECTS_DIRECTORY, {
+    const projects: string[] = readdirSync(env.PROJECTS_DIRECTORY, {
       withFileTypes: false,
     }) as string[];
     if (projects.includes(project)) {

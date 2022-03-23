@@ -1,19 +1,17 @@
-import fs from "fs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { isAuthenticated } from "../../utils/authentication";
+import { env } from "../../utils/env";
+import fs from "fs";
+import { isAuthenticated } from "../../utils/server-only/authentication";
 
 /**
  * Writes the translation data to the file.
- * The frontend is responsible into serializing the content into writable format.
+ * The frontend is responsible for serializing the content into a writable format.
  */
-const writeChanges = (req: NextApiRequest, res: NextApiResponse<{}>) => {
+const writeChanges = (req: NextApiRequest, res: NextApiResponse<unknown>) => {
   const authenticated = isAuthenticated(req.cookies);
   if (authenticated && req.method === "POST") {
     const { path, project, content }: RequestBody = JSON.parse(req.body);
-    fs.writeFileSync(
-      `${process.env.PROJECTS_DIRECTORY}/${project}/${path}`,
-      content
-    );
+    fs.writeFileSync(`${env.PROJECTS_DIRECTORY}/${project}/${path}`, content);
 
     res.status(200).json({});
   } else {

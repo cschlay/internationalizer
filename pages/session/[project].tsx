@@ -1,3 +1,4 @@
+import { GetServerSideProps, NextPage } from "next";
 import {
   ProjectDetails,
   Translation,
@@ -7,16 +8,15 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { DocStringPreview } from "../../components/DocString/DocStringPreview";
 import { EditView } from "../../components/EditView/EditView";
-import { GetServerSideProps } from "next";
 import { Git } from "../../utils/git";
 import { LivePreview } from "../../components/LivePreview/LivePreview";
 import { MainLayout } from "../../components/MainLayout";
 import { ToolBar } from "../../components/ToolBar/ToolBar";
 import css from "./[project].module.css";
 import { env } from "../../utils/env";
-import glob from "glob";
-import { isAuthenticated } from "../../utils/authentication";
-import { readFileContent } from "../../utils/readFileContent";
+import { getFileInfo } from "../../utils/getFileInfo";
+import { isAuthenticated } from "../../utils/server-only/authentication";
+import { readFileContent } from "../../utils/read-file/readFileContent";
 import { toTSX } from "../../utils/tsx/toTSX";
 import { useCtrlSaveEffect } from "../../hooks/useCtrlSaveEffect";
 import { usePendingChanges } from "../../hooks/usePendingChanges";
@@ -27,7 +27,7 @@ interface Props {
   content?: TranslationFileContent;
 }
 
-const SessionPage = ({ project, files, content }: Props) => {
+const SessionPage: NextPage<Props> = ({ project, files, content }) => {
   const { hasPendingChanges, setHasPendingChanges } = usePendingChanges();
   const [editLocales, setEditLocales] = useState<string[]>(["en"]);
   const [preview, setPreview] = useState("");
@@ -59,7 +59,7 @@ const SessionPage = ({ project, files, content }: Props) => {
     });
 
     setHasPendingChanges(false);
-  }, [content, project.name, translation]);
+  }, [content, project.name, setHasPendingChanges, translation]);
 
   useEffect(() => {
     if (content) {
@@ -82,7 +82,7 @@ const SessionPage = ({ project, files, content }: Props) => {
   return (
     <MainLayout files={files} project={project}>
       <div className={css.Content}>
-        {content.path && (
+        {content.absolutePath && (
           <ToolBar
             locales={content.locales}
             activeLanguages={editLocales}
@@ -125,41 +125,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { project } = context.query;
-  const git = new Git(project as string);
+  const project = context.query.project as string;
+  const git = new Git(project);
   const root = env.PROJECTS_DIRECTORY.replaceAll("\\", "/");
   const pattern = `${root}/${project}/+(components|core|translations)/**/*.i18n.+(ts|tsx)`;
-  const files: string[] = glob.sync(pattern, {});
-
-  const data = {};
-
-  files.forEach((file) => {
-    const path = file.replace(`${root}/${project}/`, "");
-    const [, category, ...parts] = path.split("/");
-
-    const fileName = parts[parts.length - 1];
-
-    // TODO: Move these files
-    if (!data[category]) {
-      data[category] = [];
-    }
-
-    const name = fileName.replace(".i18n.tsx", "");
-    if (category === "pages") {
-      data[category].push({
-        name,
-        path,
-        url:
-          "/" +
-          path.replace(`translations/pages/`, "").replace(".i18n.tsx", ""),
-      });
-    } else {
-      data[category].push({
-        name: fileName.replace(".i18n.tsx", ""),
-        path,
-      });
-    }
-  });
+  const files: TranslationFiles = getFileInfo(root, project, pattern);
 
   return {
     props: {
@@ -167,7 +137,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         branch: git.branch(),
         name: project,
       },
-      files: data,
+      files,
       content: context.query.file
         ? readFileContent(
             root,

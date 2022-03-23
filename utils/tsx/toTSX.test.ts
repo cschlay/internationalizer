@@ -1,5 +1,5 @@
-import { toTSX } from "./toTSX";
 import { Translation, TranslationFileContent } from "../../types";
+import { toTSX } from "./toTSX";
 
 const NAME = "TestI18n";
 
@@ -7,11 +7,14 @@ const getData = (content: Translation): TranslationFileContent => {
   return {
     content,
     exportName: NAME,
-
-    // These are not used
+    docstring: {
+      description: [],
+      stories: [],
+      previews: [],
+    },
     locales: [],
     name: "",
-    path: "",
+    absolutePath: "",
     relativePath: "",
   };
 };
@@ -21,9 +24,14 @@ describe("Conversion to TSX", () => {
     const data: TranslationFileContent = {
       content: {},
       exportName: NAME,
+      docstring: {
+        description: [],
+        stories: [],
+        previews: [],
+      },
       locales: [],
       name: "",
-      path: "",
+      absolutePath: "",
       relativePath: "",
     };
     const tsx = toTSX(data);

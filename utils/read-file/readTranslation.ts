@@ -1,6 +1,6 @@
-import { Translation } from "../types";
-import { Cleanable } from "./cleanTranslation";
-import { Tokens } from "./Tokens";
+import { Cleanable } from "../cleanTranslation";
+import { Tokens } from "../Tokens";
+import { Translation } from "../../types";
 
 /**
  * Converts Translation string representation, so it will be read and converted into JavaScript object.
@@ -39,11 +39,11 @@ const readTokens = (tokens: string[]): Translation => {
         if (token.endsWith(Tokens.LocaleTerminator)) {
           result[key][locale] = formatTextValue(textValue);
           textValue = [];
-          locale = undefined;
+          locale = "";
         }
       } else if (token === Tokens.KeyTerminator) {
-        locale = undefined;
-        key = undefined;
+        locale = "";
+        key = "";
       } else {
         locale = token.replace(Tokens.KeyValueSeparator, "");
         result[key][locale] = "";

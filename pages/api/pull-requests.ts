@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Git } from "../../utils/git";
-import { isAuthenticated } from "../../utils/authentication";
+import { isAuthenticated } from "../../utils/server-only/authentication";
 
 interface RequestBody {
   project: string;

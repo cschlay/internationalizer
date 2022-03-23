@@ -1,5 +1,5 @@
-import { Documentation } from "../types";
-import { Tokens } from "./Tokens";
+import { Documentation } from "../../types";
+import { Tokens } from "../Tokens";
 
 export const parseDocstring = (docstring: string): Documentation => {
   const lines: string[] = docstring

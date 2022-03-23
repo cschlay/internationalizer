@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAuthenticationToken } from "../../utils/authentication";
 import { AUTHENTICATION_COOKIE_NAME } from "../../app.config";
+import { getAuthenticationToken } from "../../utils/server-only/authentication";
 
 const login = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {

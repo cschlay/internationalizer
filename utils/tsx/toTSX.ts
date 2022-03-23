@@ -1,7 +1,7 @@
 import { Translation, TranslationFileContent } from "../../types";
+import { Tokens } from "../Tokens";
 import { getTemplateArguments } from "./getTemplateArguments";
 import { writeDocstring } from "./writeDocstring";
-import { Tokens } from "../Tokens";
 
 const INDENT = `  `;
 const SEMI = `;`;
@@ -45,7 +45,7 @@ const extractContent = (content: Translation): string[] => {
   for (const [key, texts] of Object.entries(content)) {
     tsx.push(INDENT + `${key}: {`);
 
-    let isTemplated: boolean = false;
+    let isTemplated = false;
     for (const [languageCode, textNode] of Object.entries(texts)) {
       const args: string[] = getTemplateArguments(textNode);
       if (args.length > 0) {

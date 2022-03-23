@@ -1,8 +1,7 @@
-import { readFileSync } from "fs";
-import { AUTHENTICATION_COOKIE_NAME } from "../app.config";
+import { AUTHENTICATION_COOKIE_NAME } from "../../app.config";
 import { NextApiRequestCookies } from "next/dist/server/api-utils";
-
-// RUN ONLY IN SERVER SIDE
+import { User } from "../../types";
+import { readFileSync } from "fs";
 
 export const isAuthenticated = (cookies: NextApiRequestCookies): boolean => {
   return verifyToken(cookies[AUTHENTICATION_COOKIE_NAME]);
@@ -14,9 +13,9 @@ export const getAuthenticationToken = (
 ): string => {
   const users = getUsers();
   const user = users.find(
-    (u) => u.username === username && u.password === password
+    (user) => user.username === username && user.password === password
   );
-  if (user) {
+  if (user && user.token) {
     return user.token;
   }
   throw new Error("Invalid credentials...");
@@ -24,10 +23,10 @@ export const getAuthenticationToken = (
 
 const verifyToken = (token: string): boolean => {
   const users = getUsers();
-  return users.find((u) => u.token === token) !== undefined;
+  return users.find((user) => user.token === token) !== undefined;
 };
 
-const getUsers = () => {
+const getUsers = (): User[] => {
   const data = readFileSync("users.json");
   return JSON.parse(data.toString());
 };

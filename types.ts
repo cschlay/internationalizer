@@ -6,8 +6,13 @@ export interface Documentation {
   previews: string[];
 }
 
-export interface TranslationFileContent {
+export interface FileInfo {
+  name: string;
   path: string;
+}
+
+export interface TranslationFileContent {
+  absolutePath: string;
   relativePath: string;
   name: string;
   docstring: Documentation;
@@ -22,32 +27,16 @@ export interface User {
   token?: string;
 }
 
-export interface ComponentMeta {
-  path: string;
-  name: string;
-}
-
-export interface PageMeta {
-  path: string;
-  name: string;
-  url: string;
-}
-
-export interface TranslationFiles {
-  components: ComponentMeta[];
-  pages: PageMeta[];
-}
+export type TranslationFiles = Record<string, FileInfo[]>;
 
 export interface ProjectDetails {
   branch: string;
   name: string;
 }
 
-// The following definitions are same in every project. Copy these to `types/Translation.ts`
+// The following definitions are the same in every project. Copy these to `types/Translation.ts`
 
-export type I18nTemplate = (args: Record<string, any>) => string | ReactNode;
-
+export type I18nTemplate = (args: Record<string, never>) => string | ReactNode;
 export type I18nTextNode = string | ReactNode | I18nTemplate;
-
 export type LocalizedTexts = Record<string, string>;
 export type Translation = Record<string, LocalizedTexts>;

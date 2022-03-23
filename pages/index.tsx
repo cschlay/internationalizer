@@ -1,14 +1,14 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import css from "./index.module.css";
 import { env } from "../utils/env";
 import glob from "glob";
-import { isAuthenticated } from "../utils/authentication";
+import { isAuthenticated } from "../utils/server-only/authentication";
 
 interface Props {
   projects: string[];
 }
 
-const IndexPage = ({ projects }: Props) => {
+const IndexPage: NextPage<Props> = ({ projects }) => {
   return (
     <div className={css.IndexPage}>
       <h1>Select a Project</h1>
