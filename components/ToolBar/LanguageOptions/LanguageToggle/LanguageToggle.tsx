@@ -1,48 +1,53 @@
-import { LOCALSTORAGE_KEY_LANGUAGES } from "../../../../app.config";
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useEffect } from "react";
+import css from "./LanguageToggle.module.css";
+import { storage } from "../../../../utils/storage";
 
-import styles from "./LanguageToggle.module.css";
+interface Props {
+  locales: string[];
+  activeLocales: string[];
+  setActiveLocales: (languages: string[]) => void;
+}
 
 export const LanguageToggle = ({
   locales,
-  activeLanguages,
-  setActiveLanguages,
-}) => {
+  activeLocales,
+  setActiveLocales,
+}: Props) => {
   const handleActiveLanguageChange = (
     event: SyntheticEvent<HTMLButtonElement>
   ) => {
-    const language: string = event.currentTarget.dataset.lang;
-    if (activeLanguages.includes(language)) {
-      const updatedLanguages = activeLanguages
-        .filter((lang) => lang !== language)
-        .sort();
-      setActiveLanguages(updatedLanguages);
+    const locale = event.currentTarget.dataset.lang;
 
-      localStorage.setItem(
-        LOCALSTORAGE_KEY_LANGUAGES,
-        JSON.stringify(updatedLanguages)
-      );
+    if (!locale) {
+      return console.error("You have not set 'data-lang' attribute!");
+    }
+
+    if (activeLocales.includes(locale)) {
+      const languages = activeLocales.filter((lang) => lang !== locale).sort();
+      setActiveLocales(languages);
+      storage.setLanguages(languages);
     } else {
-      const updatedLanguages = [...activeLanguages, language].sort();
-      setActiveLanguages(updatedLanguages);
-
-      localStorage.setItem(
-        LOCALSTORAGE_KEY_LANGUAGES,
-        JSON.stringify(updatedLanguages)
-      );
+      const languages = [...activeLocales, locale].sort();
+      setActiveLocales(languages);
+      storage.setLanguages(languages);
     }
   };
 
+  useEffect(() => {
+    setActiveLocales(storage.getLanguages());
+  }, [setActiveLocales]);
+
   return (
-    <div className={styles.Container}>
-      {locales.map((lang) => (
+    <div className={css.Container}>
+      {locales.map((locale: string) => (
         <button
-          key={lang}
-          data-lang={lang}
-          data-active={activeLanguages.includes(lang)}
+          key={locale}
+          className="kb-focus"
+          data-lang={locale}
+          data-active={activeLocales.includes(locale)}
           onClick={handleActiveLanguageChange}
         >
-          {lang}
+          {locale}
         </button>
       ))}
     </div>

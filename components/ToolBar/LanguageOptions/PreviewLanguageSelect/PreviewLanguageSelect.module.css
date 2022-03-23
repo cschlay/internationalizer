@@ -1,9 +1,9 @@
 .Container {
     background: none;
+    border-radius: var(--border-radius);
     color: var(--color-background);
     text-transform: uppercase;
     padding: var(--text-padding);
-    border-radius: var(--border-radius);
 }
 
 .Container > option {

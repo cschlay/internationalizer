@@ -1,33 +1,18 @@
-
 .Container {
     display: flex;
     gap: var(--text-padding);
 }
 
 .Container > button {
-    border: 2px solid var(--color-border);
-    border-radius: var(--border-radius);
     background: none;
+    border: none;
+    border-radius: var(--border-radius);
     color: var(--color-background);
-    opacity: 0.6;
-
     padding: var(--text-padding-small) var(--text-padding);
     text-transform: uppercase;
 }
 
-.Container > button:hover {
-    cursor: pointer;
-    color: var(--color-background);
-    opacity: 1;
-    border-color: var(--color-background);
-}
-
-.Container > button:focus {
-    outline: none;
-}
-
 .Container > button[data-active="true"] {
-    opacity: 1;
-    border-color: lightblue;
-    color: lightblue;
+    border: 2px solid var(--color-active-on-fg);
+    color: var(--color-active-on-fg);
 }

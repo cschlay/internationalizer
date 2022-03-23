@@ -1,19 +1,24 @@
 import { SyntheticEvent } from "react";
-
-import styles from "./LanguageSelect.module.css";
+import css from "./PreviewLanguageSelect.module.css";
 
 interface Props {
   locales: string[];
   setPreviewLanguage: (language: string) => void;
 }
 
-export const LanguageSelect = ({ locales, setPreviewLanguage }: Props) => {
+export const PreviewLanguageSelect = ({
+  locales,
+  setPreviewLanguage,
+}: Props) => {
   const handleChange = (event: SyntheticEvent<HTMLSelectElement>) => {
     setPreviewLanguage(event.currentTarget.value);
   };
 
   return (
-    <select className={styles.Container} onChange={handleChange}>
+    <select
+      className={`${css.Container} focus kb-focus`}
+      onChange={handleChange}
+    >
       {locales.map((lang) => (
         <option key={lang} value={lang}>
           {lang}

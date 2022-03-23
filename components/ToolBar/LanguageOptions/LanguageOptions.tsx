@@ -1,5 +1,5 @@
 import { LanguageToggle } from "./LanguageToggle/LanguageToggle";
-import { LanguageSelect } from "./LanguageSelect/LanguageSelect";
+import { PreviewLanguageSelect } from "./PreviewLanguageSelect/PreviewLanguageSelect";
 import css from "./LanguageOptions.module.css";
 
 interface Props {
@@ -19,11 +19,11 @@ export const LanguageOptions = ({
     <div className={css.LanguageOptions}>
       <LanguageToggle
         locales={locales}
-        activeLanguages={activeLanguages}
-        setActiveLanguages={setActiveLanguages}
+        activeLocales={activeLanguages}
+        setActiveLocales={setActiveLanguages}
       />
-      <small>Preview</small>
-      <LanguageSelect
+      <small>Preview In:</small>
+      <PreviewLanguageSelect
         locales={locales}
         setPreviewLanguage={setPreviewLanguage}
       />

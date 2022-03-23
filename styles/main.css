@@ -12,8 +12,9 @@
   --color-background: whitesmoke;
   --color-border: gray;
   --color-foreground: #171616;
+  --color-active-on-fg: #8dd78d;
   --color-accent: #ccdae0;
-  --color-focus: skyblue;
+  --color-focus: #77b967;
   --color-error: pink;
 
   --preview-size: 400px;
@@ -40,6 +41,11 @@ button {
   font-family: var(--display-font);
 }
 
+.kb-focus:focus-visible {
+  box-shadow: 0 0 8px var(--color-focus);
+  outline: 1px solid var(--color-focus);
+}
+
 .scrollbar::-webkit-scrollbar {
   width: 8px;
 }
@@ -51,7 +57,6 @@ button {
 .scrollbar::-webkit-scrollbar-thumb {
   background-color: #7f938e;
 }
-
 
 #app {
   display: grid;

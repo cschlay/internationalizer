@@ -12,7 +12,7 @@ export const ListCategory = ({ data, onOpen }: ListingProps) => {
   const router = useRouter();
 
   return (
-    <ul className={css.ListCategory}>
+    <ul className={css.ListCategory} tabIndex={0}>
       {data.map((file) => (
         <li
           key={file.path}
