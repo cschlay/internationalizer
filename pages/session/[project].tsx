@@ -8,7 +8,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { DocStringPreview } from "../../components/DocString/DocStringPreview";
 import { EditView } from "../../components/EditView/EditView";
-import { Git } from "../../utils/git";
+import { Git } from "../../utils/server-only/git";
 import { LivePreview } from "../../components/LivePreview/LivePreview";
 import { MainLayout } from "../../components/MainLayout";
 import { ToolBar } from "../../components/ToolBar/ToolBar";

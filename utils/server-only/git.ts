@@ -1,4 +1,4 @@
-import { env } from "./env";
+import { env } from "../env";
 import { readdirSync } from "fs";
 import { spawnSync } from "child_process";
 

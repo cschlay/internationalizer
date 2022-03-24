@@ -1,12 +1,12 @@
 import { Translation, TranslationFileContent } from "../../types";
 import { toTSX } from "./toTSX";
 
-const NAME = "TestI18n";
+const exportName = "TestI18n";
 
 const getData = (content: Translation): TranslationFileContent => {
   return {
     content,
-    exportName: NAME,
+    exportName,
     docstring: {
       description: [],
       stories: [],
@@ -23,7 +23,7 @@ describe("Conversion to TSX", () => {
   it("should add structure for empty file", () => {
     const data: TranslationFileContent = {
       content: {},
-      exportName: NAME,
+      exportName,
       docstring: {
         description: [],
         stories: [],
@@ -40,11 +40,13 @@ describe("Conversion to TSX", () => {
       [
         `import { I18nTemplate, Translation } from "@/types/Translation";`,
         "",
-        `export const ${NAME}: Translation = {`,
+        "/**",
+        " */",
+        `export const ${exportName}: Translation = {`,
         "",
         "};",
         "",
-        `export interface ${NAME} {`,
+        `export interface ${exportName} {`,
         "",
         "}",
       ].join("\n")
@@ -62,13 +64,15 @@ describe("Conversion to TSX", () => {
       [
         `import { I18nTemplate, Translation } from "@/types/Translation";`,
         "",
-        `export const ${NAME}: Translation = {`,
+        "/**",
+        " */",
+        `export const ${exportName}: Translation = {`,
         "  key: {",
         `    en: "test",`,
         "  },",
         "};",
         "",
-        `export interface ${NAME} {`,
+        `export interface ${exportName} {`,
         "  key: string;",
         "}",
       ].join("\n")
@@ -88,14 +92,16 @@ describe("Conversion to TSX", () => {
       [
         `import { I18nTemplate, Translation } from "@/types/Translation";`,
         "",
-        `export const ${NAME}: Translation = {`,
+        "/**",
+        " */",
+        `export const ${exportName}: Translation = {`,
         "  key: {",
         `    en: "english",`,
         `    fi: "finnish",`,
         "  },",
         "};",
         "",
-        `export interface ${NAME} {`,
+        `export interface ${exportName} {`,
         "  key: string;",
         "}",
       ].join("\n")
@@ -117,7 +123,9 @@ describe("Conversion to TSX", () => {
       [
         `import { I18nTemplate, Translation } from "@/types/Translation";`,
         "",
-        `export const ${NAME}: Translation = {`,
+        "/**",
+        " */",
+        `export const ${exportName}: Translation = {`,
         "  one: {",
         `    en: "one",`,
         "  },",
@@ -126,7 +134,7 @@ describe("Conversion to TSX", () => {
         "  },",
         "};",
         "",
-        `export interface ${NAME} {`,
+        `export interface ${exportName} {`,
         "  one: string;",
         "  two: string;",
         "}",
@@ -146,13 +154,15 @@ describe("Conversion to TSX", () => {
       [
         `import { I18nTemplate, Translation } from "@/types/Translation";`,
         "",
-        `export const ${NAME}: Translation = {`,
+        "/**",
+        " */",
+        `export const ${exportName}: Translation = {`,
         "  key: {",
         `    en: ({ name }) => <>Hello {name}!</>,`,
         "  },",
         "};",
         "",
-        `export interface ${NAME} {`,
+        `export interface ${exportName} {`,
         "  key: I18nTemplate;",
         "}",
       ].join("\n")
@@ -171,13 +181,15 @@ describe("Conversion to TSX", () => {
       [
         `import { I18nTemplate, Translation } from "@/types/Translation";`,
         "",
-        `export const ${NAME}: Translation = {`,
+        "/**",
+        " */",
+        `export const ${exportName}: Translation = {`,
         "  key: {",
         `    en: ({ name }) => <>Hello <strong>{name}</strong>!</>,`,
         "  },",
         "};",
         "",
-        `export interface ${NAME} {`,
+        `export interface ${exportName} {`,
         "  key: I18nTemplate;",
         "}",
       ].join("\n")
