@@ -7,7 +7,9 @@ import { useEffect } from "react";
 export const useCtrlSaveEffect = (saveHandler: () => void) => {
   useEffect(() => {
     const eventHandler = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "s") {
+      const { ctrlKey, key } = event;
+
+      if (ctrlKey && key.toLowerCase() === "s") {
         event.preventDefault();
         saveHandler();
       }

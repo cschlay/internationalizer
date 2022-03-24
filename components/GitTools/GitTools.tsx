@@ -25,7 +25,7 @@ export const GitTools = ({ project }: Props) => {
 
       <div className={css.Actions}>
         <Button onClick={handlePullRequest} inverted>
-          Submit for Review
+          Commit and Push
         </Button>
       </div>
     </div>

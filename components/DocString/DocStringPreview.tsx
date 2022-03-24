@@ -22,7 +22,7 @@ export const DocStringPreview = ({ documentation, setPreviewPath }: Props) => {
 
   return (
     <div className={css.DocStringPreview}>
-      <h3>Note to translator</h3>
+      <h3>Notes</h3>
       {description.length > 0 ? (
         <p className={css.Description}>{description.join("\n")}</p>
       ) : (
